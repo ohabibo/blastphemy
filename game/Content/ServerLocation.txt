@@ -1,0 +1,12 @@
+{
+	"debug":
+	{
+		"location": "http://localhost:3000",
+		"path": ""
+	},
+	"release":
+	{
+		"location": "https://your-project-api-url.hbo-ict.cloud",
+		"path": "/api/socket.io"
+	}
+}

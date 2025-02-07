@@ -1,0 +1,11 @@
+{
+  "database": {
+    "host": "db.hbo-ict.cloud",
+    "port": 3366,
+    "timeout": 30000,
+    "username": "your username",
+    "password": "your password",
+    "database": "your database schema name",
+    "connectionLimit": 10
+  }
+}
