@@ -10,6 +10,10 @@ public class Player
     private float speed = 5f;
     private float shootCooldown = 0.5f; // Cooldown time in seconds
     private float shootTimer = 0f;
+    public int Lives { get; private set; } = 3;
+    public bool IsGameOver { get; private set; } = false;
+
+    public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
 
     public Player(Texture2D texture, Vector2 startPosition)
     {
@@ -19,6 +23,8 @@ public class Player
 
     public void Update(GameTime gameTime, List<Bullet> bullets, Texture2D bulletTexture)
     {
+        if (IsGameOver) return;
+
         KeyboardState keyboard = Keyboard.GetState();
 
         if (keyboard.IsKeyDown(Keys.W)) Position.Y -= speed;
@@ -42,5 +48,21 @@ public class Player
     public void Draw(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Texture, Position, Color.White);
+    }
+
+    public void LoseLife()
+    {
+        Lives--;
+        if (Lives <= 0)
+        {
+            IsGameOver = true;
+        }
+    }
+
+    public void Reset()
+    {
+        Lives = 3;
+        IsGameOver = false;
+        Position = new Vector2(1280 / 2 - Texture.Width / 2, 500); // Reset position
     }
 }

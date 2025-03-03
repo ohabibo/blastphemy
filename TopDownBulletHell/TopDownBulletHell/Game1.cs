@@ -9,31 +9,33 @@ public class Game1 : Game
     private GameManager gameManager;
     private IntroScreen introScreen;
 
-    private Texture2D playerTexture, bulletTexture, enemyTexture, introBackground;
+    private Texture2D playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, introBackground;
     private SpriteFont font;
     private bool isIntroFinished;
+    private int playerLives = 3;
 
-public Game1()
-{
-    graphics = new GraphicsDeviceManager(this);
-    Content.RootDirectory = "Content";
-    graphics.PreferredBackBufferWidth = 1280; // Set resolution width
-    graphics.PreferredBackBufferHeight = 720; // Set resolution height
-}
+    public Game1()
+    {
+        graphics = new GraphicsDeviceManager(this);
+        Content.RootDirectory = "Content";
+        graphics.PreferredBackBufferWidth = 1280; // Set resolution width
+        graphics.PreferredBackBufferHeight = 720; // Set resolution height
+    }
 
-protected override void LoadContent()
-{
-    spriteBatch = new SpriteBatch(GraphicsDevice);
+    protected override void LoadContent()
+    {
+        spriteBatch = new SpriteBatch(GraphicsDevice);
 
-    playerTexture = Content.Load<Texture2D>("player");
-    bulletTexture = Content.Load<Texture2D>("bullet");
-    enemyTexture = Content.Load<Texture2D>("enemy");
-    // introBackground = Content.Load<Texture2D>("introBackground");
-    font = Content.Load<SpriteFont>("gamefont");
+        playerTexture = Content.Load<Texture2D>("player");
+        bulletTexture = Content.Load<Texture2D>("bullet");
+        enemyTexture = Content.Load<Texture2D>("enemy");
+        enemyBulletTexture = Content.Load<Texture2D>("enemybullet1");
+        font = Content.Load<SpriteFont>("gamefont");
+        Texture2D logoTexture = Content.Load<Texture2D>("logo");
 
-    gameManager = new GameManager(playerTexture, bulletTexture, enemyTexture);
-    introScreen = new IntroScreen(null, font); // Pass null for introBackground
-}
+        gameManager = new GameManager(playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, font);
+        introScreen = new IntroScreen(null, logoTexture, font);
+    }
 
     protected override void Update(GameTime gameTime)
     {

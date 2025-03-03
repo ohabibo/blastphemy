@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System;
 
 public class Enemy
 {
@@ -21,12 +22,24 @@ public class Enemy
     public void Update()
     {
         Position.Y += speed;
-        if (Position.Y > 600) IsActive = false; // Remove when off-screen
+        if (Position.Y > 720) IsActive = false; // Remove when off-screen
     }
 
-    public void Shoot(List<Bullet> bullets, Texture2D bulletTexture)
+    public void Shoot(List<Bullet> bullets, Texture2D bulletTexture, Vector2 playerPosition)
     {
-        bullets.Add(new Bullet(bulletTexture, Position, new Vector2(0, 4))); // Simple downward shot
+        int bulletCount = 5;
+        float angleStep = MathHelper.PiOver4 / (bulletCount - 1); // Spread angle
+
+        Vector2 direction = playerPosition - Position;
+        direction.Normalize();
+        float baseAngle = (float)Math.Atan2(direction.Y, direction.X);
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            float angle = baseAngle - MathHelper.PiOver4 / 2 + i * angleStep;
+            Vector2 velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 4f;
+            bullets.Add(new Bullet(bulletTexture, Position, velocity));
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)
