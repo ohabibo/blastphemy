@@ -12,8 +12,9 @@ namespace Blok3Game.Engine.GameObjects
 		protected int layer;
 		protected string id;
 		protected bool visible;
+        private string v;
 
-		public GameObject(int layer = 0, string id = "")
+        public GameObject(int layer = 0, string id = "")
 		{
 			this.layer = layer;
 			this.id = id;
@@ -22,7 +23,12 @@ namespace Blok3Game.Engine.GameObjects
 			visible = true;
 		}
 
-		public virtual void HandleInput(InputHelper inputHelper)
+        protected GameObject(string v)
+        {
+            this.v = v;
+        }
+
+        public virtual void HandleInput(InputHelper inputHelper)
 		{
 			
 		}
