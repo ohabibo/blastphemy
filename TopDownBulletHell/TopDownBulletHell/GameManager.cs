@@ -96,8 +96,6 @@ public class GameManager
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        Player.Draw(spriteBatch);
-
         foreach (var bullet in Bullets)
             bullet.Draw(spriteBatch);
 
@@ -109,6 +107,9 @@ public class GameManager
 
         // Draw the shield progress bar
         shieldProgressBar.Draw(spriteBatch);
+
+        // Draw the player on top of the shield progress bar
+        Player.Draw(spriteBatch);
 
         if (Player.IsGameOver)
         {
