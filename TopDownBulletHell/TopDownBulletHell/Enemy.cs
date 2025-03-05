@@ -9,6 +9,8 @@ public class Enemy
     public Texture2D Texture;
     public bool IsActive;
     private float speed = 2f;
+    private float shootCooldown = 2f; // Cooldown time in seconds
+    private float shootTimer = 0f;
 
     public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
 
@@ -19,26 +21,33 @@ public class Enemy
         IsActive = true;
     }
 
-    public void Update()
+    public void Update(GameTime gameTime)
     {
         Position.Y += speed;
         if (Position.Y > 720) IsActive = false; // Remove when off-screen
+
+        shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 
     public void Shoot(List<Bullet> bullets, Texture2D bulletTexture, Vector2 playerPosition)
     {
-        int bulletCount = 5;
-        float angleStep = MathHelper.PiOver4 / (bulletCount - 1); // Spread angle
-
-        Vector2 direction = playerPosition - Position;
-        direction.Normalize();
-        float baseAngle = (float)Math.Atan2(direction.Y, direction.X);
-
-        for (int i = 0; i < bulletCount; i++)
+        if (shootTimer >= shootCooldown)
         {
-            float angle = baseAngle - MathHelper.PiOver4 / 2 + i * angleStep;
-            Vector2 velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 4f;
-            bullets.Add(new Bullet(bulletTexture, Position, velocity));
+            int bulletCount = 5;
+            float angleStep = MathHelper.PiOver4 / (bulletCount - 1); // Spread angle
+
+            Vector2 direction = playerPosition - Position;
+            direction.Normalize();
+            float baseAngle = (float)Math.Atan2(direction.Y, direction.X);
+
+            for (int i = 0; i < bulletCount; i++)
+            {
+                float angle = baseAngle - MathHelper.PiOver4 / 2 + i * angleStep;
+                Vector2 velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * 4f;
+                bullets.Add(new Bullet(bulletTexture, Position, velocity));
+            }
+
+            shootTimer = 0f; // Reset the shoot timer
         }
     }
 

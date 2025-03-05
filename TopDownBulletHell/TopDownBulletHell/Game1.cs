@@ -9,7 +9,7 @@ public class Game1 : Game
     private GameManager gameManager;
     private IntroScreen introScreen;
 
-    private Texture2D playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, introBackground;
+    private Texture2D playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, introBackground, shieldTexture;
     private SpriteFont font;
     private bool isIntroFinished;
     private int playerLives = 3;
@@ -31,9 +31,11 @@ public class Game1 : Game
         enemyTexture = Content.Load<Texture2D>("enemy");
         enemyBulletTexture = Content.Load<Texture2D>("enemybullet1");
         font = Content.Load<SpriteFont>("gamefont");
+        SpriteFont shieldFont = Content.Load<SpriteFont>("shieldfont"); // Load the new font
         Texture2D logoTexture = Content.Load<Texture2D>("logo");
+        shieldTexture = Content.Load<Texture2D>("shield"); // Load the shield texture
 
-        gameManager = new GameManager(playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, font);
+        gameManager = new GameManager(playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, font, shieldTexture, shieldFont);
         introScreen = new IntroScreen(null, logoTexture, font);
     }
 

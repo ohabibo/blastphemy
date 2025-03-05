@@ -10,10 +10,19 @@ public class Player
     private float speed = 5f;
     private float shootCooldown = 0.5f; // Cooldown time in seconds
     private float shootTimer = 0f;
-    public int Lives { get; private set; } = 3;
+    public float ShieldPercentage { get; private set; } = 100f;
     public bool IsGameOver { get; private set; } = false;
 
-    public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
+    // Adjust the hitbox size here
+    private int hitboxWidth = 20;
+    private int hitboxHeight = 20;
+
+    public Rectangle BoundingBox => new Rectangle(
+        (int)Position.X + (Texture.Width - hitboxWidth) / 2,
+        (int)Position.Y + (Texture.Height - hitboxHeight) / 2,
+        hitboxWidth,
+        hitboxHeight
+    );
 
     public Player(Texture2D texture, Vector2 startPosition)
     {
@@ -50,10 +59,10 @@ public class Player
         spriteBatch.Draw(Texture, Position, Color.White);
     }
 
-    public void LoseLife()
+    public void TakeDamage(float damage)
     {
-        Lives--;
-        if (Lives <= 0)
+        ShieldPercentage -= damage;
+        if (ShieldPercentage <= 0)
         {
             IsGameOver = true;
         }
@@ -61,7 +70,7 @@ public class Player
 
     public void Reset()
     {
-        Lives = 3;
+        ShieldPercentage = 100f;
         IsGameOver = false;
         Position = new Vector2(1280 / 2 - Texture.Width / 2, 500); // Reset position
     }

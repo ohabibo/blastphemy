@@ -15,8 +15,9 @@ public class GameManager
     public Texture2D EnemyTexture;
     public Texture2D EnemyBulletTexture;
     private SpriteFont font;
+    private ShieldProgressBar shieldProgressBar;
 
-    public GameManager(Texture2D playerTexture, Texture2D bulletTexture, Texture2D enemyTexture, Texture2D enemyBulletTexture, SpriteFont font)
+    public GameManager(Texture2D playerTexture, Texture2D bulletTexture, Texture2D enemyTexture, Texture2D enemyBulletTexture, SpriteFont font, Texture2D shieldTexture, SpriteFont shieldFont)
     {
         PlayerTexture = playerTexture;
         BulletTexture = bulletTexture;
@@ -25,6 +26,7 @@ public class GameManager
         this.font = font;
 
         Player = new Player(PlayerTexture, new Vector2(1280 / 2 - PlayerTexture.Width / 2, 500)); // Center horizontally
+        shieldProgressBar = new ShieldProgressBar(shieldTexture, new Vector2(10, 600), shieldFont); // Position at bottom left
     }
 
     public void Update(GameTime gameTime)
@@ -34,6 +36,10 @@ public class GameManager
             if (Keyboard.GetState().IsKeyDown(Keys.R))
             {
                 RestartGame();
+            }
+            else
+            {
+                shieldProgressBar.Update(gameTime); // Continue updating the shield progress bar
             }
             return;
         }
@@ -45,7 +51,7 @@ public class GameManager
 
         foreach (var enemy in Enemies)
         {
-            enemy.Update();
+            enemy.Update(gameTime); // Pass the gameTime parameter here
             if (enemy.IsActive)
             {
                 enemy.Shoot(EnemyBullets, EnemyBulletTexture, Player.Position);
@@ -75,7 +81,8 @@ public class GameManager
             if (EnemyBullets[i].BoundingBox.Intersects(Player.BoundingBox))
             {
                 EnemyBullets[i].IsActive = false;
-                Player.LoseLife();
+                Player.TakeDamage(25f); // Each bullet takes away 25%
+                shieldProgressBar.UpdateShield(Player.ShieldPercentage);
             }
         }
 
@@ -83,6 +90,8 @@ public class GameManager
         {
             Enemies.Add(new Enemy(EnemyTexture, new Vector2(1280 / 2 - EnemyTexture.Width / 2, 0))); // Center horizontally
         }
+
+        shieldProgressBar.Update(gameTime); // Update the shield progress bar
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -98,9 +107,8 @@ public class GameManager
         foreach (var bullet in EnemyBullets)
             bullet.Draw(spriteBatch);
 
-        // Draw the life counter
-        string livesText = $"Lives: {Player.Lives}";
-        spriteBatch.DrawString(font, livesText, new Vector2(10, 10), Color.White);
+        // Draw the shield progress bar
+        shieldProgressBar.Draw(spriteBatch);
 
         if (Player.IsGameOver)
         {
@@ -122,5 +130,6 @@ public class GameManager
         EnemyBullets.Clear();
         Enemies.Clear();
         Enemies.Add(new Enemy(EnemyTexture, new Vector2(1280 / 2 - EnemyTexture.Width / 2, 0))); // Center horizontally
+        shieldProgressBar.Reset(); // Reset the shield progress bar
     }
 }
