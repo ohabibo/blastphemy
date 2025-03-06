@@ -13,6 +13,8 @@ namespace Blok3Game.GameStates
     {
         private EnemyManager enemyManager;
         private Texture2D enemyTexture;
+        private EnemyBulletManager enemyBulletManager;
+        private Texture2D enemyBulletTexture;
         private Texture2D playerTexture; // Added missing field declaration
         private MockPlayer tempPlayer;
         private GraphicsDevice graphicsDevice;
@@ -48,6 +50,9 @@ namespace Blok3Game.GameStates
             
             // Create a red circle texture for the enemies
             enemyTexture = CreateCircleTexture(32, Color.Red);
+
+            // Create a orange circle texture for the enemy bullets
+            enemyBulletTexture = CreateCircleTexture(16, Color.Orange);
             
             
             tempPlayer = new MockPlayer(playerTexture);
@@ -55,6 +60,9 @@ namespace Blok3Game.GameStates
             
             enemyManager = new EnemyManager(enemyTexture, tempPlayer); // Pass the mock player
             Add(enemyManager);
+
+            enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
+            Add(enemyBulletManager);
         }
 
         public void Initialize(ContentManager content)

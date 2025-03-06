@@ -4,31 +4,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.Engine.GameObjects;
 using Blok3Game.Engine.Helpers;
 using System.Runtime.CompilerServices;
-using Blok3Game.content.Scripts.Managers;
 
 namespace Blok3Game.content.Scripts.Enemies
 {
-    public class Enemy : GameObject
+    public class EnemyBullet : GameObject
     {
         private Vector2 targetPosition;
-        private float speed = 100f;
-        private Texture2D enemySprite;
-        private Random rand;
-        private float shootTimer;
-        private float shootInterval = 2f;
-        public EnemyBulletManager enemyBulletManager;
-
-        public Enemy(Texture2D sprite) : base() 
+        private float speed = 250f;
+        private float timer;
+        private float deathTime = 0f;
+        private Texture2D enemyBulletSprite;
+        public EnemyBullet(Texture2D sprite) : base() 
         {
-            enemySprite = sprite;
-            rand = new Random();
-            SpawnAboveScreen();
-        }
-
-        private void SpawnAboveScreen() 
-        {
-            int screenWidth = 1920;
-            position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
+            enemyBulletSprite = sprite;
         }
 
         public void SetTargetPosition(Vector2 playerPos)
@@ -45,20 +33,14 @@ namespace Blok3Game.content.Scripts.Enemies
                 velocity = direction * speed;
             }
 
-            shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (shootTimer >= shootInterval) {
-                enemyBulletManager.SpawnEnemyBullet();
-                shootTimer = 0;
-            }
-
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (visible && enemySprite != null)
+            if (visible && enemyBulletSprite != null)
             {
-                spriteBatch.Draw(enemySprite, position, Color.White);
+                spriteBatch.Draw(enemyBulletSprite, position, Color.White);
             }
         }
 
@@ -66,10 +48,10 @@ namespace Blok3Game.content.Scripts.Enemies
         {
             get
             {
-                if (enemySprite != null)
+                if (enemyBulletSprite != null)
                 {
                     return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y, 
-                                          enemySprite.Width, enemySprite.Height);                }
+                                          enemyBulletSprite.Width, enemyBulletSprite.Height);                }
                 return base.BoundingBox;
             }
         }
