@@ -29,6 +29,8 @@ public class GameEnvironment : Game
         random = new Random();
         assetManager = new AssetManager(Content);
         gameSettingsManager = new GameSettingsManager();
+        IsMouseVisible = true;
+        FullScreen = true; // Start in fullscreen mode
     }
 
     protected override void Initialize()
