@@ -16,6 +16,7 @@ namespace BaseProject
         private SpriteFont shieldFont;
         private ShieldProgressBar shieldProgressBar;
         private Texture2D shieldTexture;
+        private Texture2D abilityTexture;
 
         public Game() : base()
         {
@@ -35,9 +36,10 @@ namespace BaseProject
             font = Content.Load<SpriteFont>("Assets/Fonts/gamefont");
             shieldFont = Content.Load<SpriteFont>("Assets/Fonts/shieldfont"); // Load the shieldfont for the shield percentage text
             shieldTexture = Content.Load<Texture2D>("Assets/Sprites/Shield/shield");
+            abilityTexture = Content.Load<Texture2D>("Assets/Sprites/Ability/ability"); // Load the ability texture
 
             introScreen = new IntroScreen(logoTexture, font);
-            shieldProgressBar = new ShieldProgressBar(shieldTexture, 100, shieldFont);
+            shieldProgressBar = new ShieldProgressBar(shieldTexture, abilityTexture, 100, shieldFont);
 
             GameState gameState = new GameState(GraphicsDevice);
             gameState.Initialize(Content); 
@@ -63,7 +65,7 @@ namespace BaseProject
             else
             {
                 base.Update(gameTime);
-                shieldProgressBar.UpdateShield(80); // Example value
+                shieldProgressBar.UpdateShield(100); // Example value
             }
         }
 
@@ -79,7 +81,7 @@ namespace BaseProject
             {
                 base.Draw(gameTime);
                 spriteBatch.Begin();
-                shieldProgressBar.Draw(spriteBatch);
+                shieldProgressBar.Draw(spriteBatch, GraphicsDevice); // Pass the GraphicsDevice
                 spriteBatch.End();
             }
         }

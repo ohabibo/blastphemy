@@ -61,19 +61,20 @@ public class IntroScreen
 
         // Center the logo and text
         Vector2 logoPosition = new Vector2(
-            (spriteBatch.GraphicsDevice.Viewport.Width - logoTexture.Width) / 2,
-            (spriteBatch.GraphicsDevice.Viewport.Height - logoTexture.Height) / 2 - 50
+            (spriteBatch.GraphicsDevice.Viewport.Width - logoTexture.Width * 2) / 2,
+            (spriteBatch.GraphicsDevice.Viewport.Height - logoTexture.Height * 2) / 2 - 50
         );
         Vector2 textPosition = new Vector2(
             (spriteBatch.GraphicsDevice.Viewport.Width - font.MeasureString("Press Enter to Start").X) / 2,
-            (spriteBatch.GraphicsDevice.Viewport.Height + logoTexture.Height) / 2
+            (spriteBatch.GraphicsDevice.Viewport.Height + logoTexture.Height * 2) / 2
         );
 
         // Draw the logo and text
-        spriteBatch.Draw(logoTexture, logoPosition, Color.White * fadeAlpha);
+        spriteBatch.Draw(logoTexture, logoPosition, null, Color.White * fadeAlpha, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f); // Keep the logo bigger
         spriteBatch.DrawString(font, "Press Enter to Start", textPosition, Color.White);
 
         // End the sprite batch
         spriteBatch.End();
     }
 }
+
