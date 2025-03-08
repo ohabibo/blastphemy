@@ -2,11 +2,29 @@ using System;
 using FMOD;
 using Microsoft.Xna.Framework;
 using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Blok3Game.content.Scripts.Audio 
 {
-    public class FMODAudio 
+    public class FMODAudio
     {
+
+        private static FMODAudio instance;
+
+        public static FMODAudio Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new FMODAudio();
+                    instance.Initialize();
+                }
+                return instance;
+            }
+        }
+
+        private FMODAudio() { }
         private const string MASTER_BANK = "../../../Content/Audio/Music/Master.bank";
         private const string MASTER_STRINGS_BANK = "../../../Content/Audio/Music/Master.strings.bank";
 
@@ -97,6 +115,26 @@ namespace Blok3Game.content.Scripts.Audio
             else
             {
                 Console.WriteLine($"Failed to find event: {eventPath}");
+            }
+        }
+
+        public void SetParameter(string parameterName, int value)
+        {
+            if (eventInstance.hasHandle())
+            {
+                FMOD.RESULT result = eventInstance.setParameterByName(parameterName, value);
+                if (result == FMOD.RESULT.OK)
+                {
+                    Console.WriteLine($"Successfully set parameter {parameterName} to {value}");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to set parameter {parameterName}: {result}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Cannot set parameter: No valid event instance");
             }
         }
 
