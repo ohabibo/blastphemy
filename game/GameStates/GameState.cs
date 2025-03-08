@@ -51,7 +51,7 @@ namespace Blok3Game.GameStates
             audio.Initialize();
 
 
-            audio.PlayMusic("event:/Music/TestMusic");
+            audio.PlayMusic("event:/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
             playerTexture = CreateCircleTexture(32, Color.White);

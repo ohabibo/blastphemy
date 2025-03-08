@@ -1,13 +1,14 @@
 using System;
 using FMOD;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace Blok3Game.content.Scripts.Audio 
 {
     public class FMODAudio 
     {
-        private const string MASTER_BANK = "Assets/Audio/Music/Master.bank";
-        private const string MASTER_STRINGS_BANK = "Assets/Audio/Music/Master.strings.bank";
+        private const string MASTER_BANK = "../../../Content/Audio/Music/Master.bank";
+        private const string MASTER_STRINGS_BANK = "../../../Content/Audio/Music/Master.strings.bank";
 
         private FMOD.System system;
         private FMOD.Studio.System studioSystem;
@@ -18,11 +19,28 @@ namespace Blok3Game.content.Scripts.Audio
 
         public void Initialize()
         {
+
+            string currentDir = Directory.GetCurrentDirectory();
+            string masterPath = Path.GetFullPath(MASTER_BANK);
+            
+            Console.WriteLine($"Current directory: {currentDir}");
+            Console.WriteLine($"Looking for bank at: {masterPath}");
+            
+            if (!File.Exists(masterPath))
+            {
+                throw new FileNotFoundException($"FMOD bank file not found at {masterPath}");
+            }
+
             FMOD.Factory.System_Create(out system);
             system.init(32, FMOD.INITFLAGS.NORMAL, IntPtr.Zero);
 
-            // FMOD.Studio.System.create(out studioSystem);
-            // system.init(32, FMOD.INITFLAGS.NORMAL, IntPtr.Zero);
+            FMOD.Studio.System.create(out studioSystem);
+            studioSystem.initialize(
+                32,                                     // Max channels
+                FMOD.Studio.INITFLAGS.NORMAL,          // Studio flags
+                FMOD.INITFLAGS.NORMAL,                 // Core flags
+                IntPtr.Zero                            // Extra driver data
+            );
 
             studioSystem.loadBankFile(MASTER_BANK, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out masterBank);
             studioSystem.loadBankFile(MASTER_STRINGS_BANK, FMOD.Studio.LOAD_BANK_FLAGS.NORMAL, out stringsBank);
