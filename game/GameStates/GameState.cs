@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.Engine;
 using Blok3Game.Engine.Helpers;
+using Blok3Game.content.Scripts.Audio;
+using System.Net.Sockets;
 
 namespace Blok3Game.GameStates
 {
@@ -16,6 +18,7 @@ namespace Blok3Game.GameStates
         private Texture2D playerTexture; // Added missing field declaration
         private MockPlayer tempPlayer;
         private GraphicsDevice graphicsDevice;
+        private FMODAudio audio;
         
         public GameState(GraphicsDevice graphicsDevice) : base()
         {           
@@ -29,6 +32,8 @@ namespace Blok3Game.GameStates
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            audio.Update();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -42,6 +47,11 @@ namespace Blok3Game.GameStates
 
         public void LoadContent(ContentManager content)
         {
+            audio = new FMODAudio();
+            audio.Initialize();
+
+
+            audio.PlayMusic("event:/Music/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
             playerTexture = CreateCircleTexture(32, Color.White);
