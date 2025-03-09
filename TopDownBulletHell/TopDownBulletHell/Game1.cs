@@ -26,14 +26,14 @@ public class Game1 : Game
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        playerTexture = Content.Load<Texture2D>("player");
-        bulletTexture = Content.Load<Texture2D>("bullet");
-        enemyTexture = Content.Load<Texture2D>("enemy");
-        enemyBulletTexture = Content.Load<Texture2D>("enemybullet1");
-        font = Content.Load<SpriteFont>("gamefont");
-        SpriteFont shieldFont = Content.Load<SpriteFont>("shieldfont"); // Load the new font
-        Texture2D logoTexture = Content.Load<Texture2D>("logo");
-        shieldTexture = Content.Load<Texture2D>("shield"); // Load the shield texture
+        playerTexture = Content.Load<Texture2D>("Assets/Sprites/Player/player");
+        bulletTexture = Content.Load<Texture2D>("Assets/Sprites/PlayerBullet1/bullet");
+        enemyTexture = Content.Load<Texture2D>("Assets/Sprites/Enemy1/enemy");
+        enemyBulletTexture = Content.Load<Texture2D>("Assets/Sprites/EnemyBullet1/enemybullet1");
+        font = Content.Load<SpriteFont>("Assets/Fonts/gamefont");
+        SpriteFont shieldFont = Content.Load<SpriteFont>("Assets/Fonts/shieldfont"); // Load the new font
+        Texture2D logoTexture = Content.Load<Texture2D>("Assets/Logo/logo");
+        shieldTexture = Content.Load<Texture2D>("Assets/Sprites/Shield/shield"); // Load the shield texture
 
         gameManager = new GameManager(playerTexture, bulletTexture, enemyTexture, enemyBulletTexture, font, shieldTexture, shieldFont);
         introScreen = new IntroScreen(null, logoTexture, font);

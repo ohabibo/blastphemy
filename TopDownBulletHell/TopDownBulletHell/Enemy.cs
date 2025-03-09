@@ -9,7 +9,7 @@ public class Enemy
     public Texture2D Texture;
     public bool IsActive;
     private float speed = 2f;
-    private float shootCooldown = 2f; // Cooldown time in seconds
+    private float shootCooldown = 0.75f; // Reduced cooldown time in seconds
     private float shootTimer = 0f;
 
     public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);

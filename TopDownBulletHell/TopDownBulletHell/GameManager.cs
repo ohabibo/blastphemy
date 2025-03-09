@@ -81,7 +81,9 @@ public class GameManager
             if (EnemyBullets[i].BoundingBox.Intersects(Player.BoundingBox))
             {
                 EnemyBullets[i].IsActive = false;
-                Player.TakeDamage(25f); // Each bullet takes away 25%
+                Vector2 knockbackDirection = Player.Position - EnemyBullets[i].Position;
+                knockbackDirection.Normalize();
+                Player.TakeDamage(25f, knockbackDirection); // Each bullet takes away 25%
                 shieldProgressBar.UpdateShield(Player.ShieldPercentage);
             }
         }
