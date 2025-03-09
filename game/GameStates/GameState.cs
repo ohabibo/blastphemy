@@ -14,7 +14,7 @@ namespace Blok3Game.GameStates
         private EnemyManager enemyManager;
         private Texture2D enemyTexture;
         private Texture2D playerTexture; // Added missing field declaration
-        private MockPlayer tempPlayer;
+        private Player tempPlayer;
         private GraphicsDevice graphicsDevice;
         
         public GameState(GraphicsDevice graphicsDevice) : base()
@@ -50,7 +50,7 @@ namespace Blok3Game.GameStates
             enemyTexture = CreateCircleTexture(32, Color.Red);
             
             
-            tempPlayer = new MockPlayer(playerTexture);
+            tempPlayer = new Player(playerTexture);
             Add(tempPlayer);
             
             enemyManager = new EnemyManager(enemyTexture, tempPlayer); // Pass the mock player
