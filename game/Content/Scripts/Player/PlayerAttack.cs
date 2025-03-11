@@ -9,11 +9,23 @@ namespace Blok3Game.content.Scripts
 {
     public class PlayerAttack : GameObject
     {
-        public PlayerAttack(Vector2 _velocity)
+        private Texture2D sprite;
+        public PlayerAttack(Vector2 _velocity, Texture2D _sprite)
         {
             velocity = _velocity;
+            sprite = _sprite;
         }
         public override void Update(GameTime gameTime)
-        { }
+        {Console.WriteLine("I am existing"); }
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            if (visible && sprite != null)
+            {
+                spriteBatch.Draw(sprite, position, Color.White);
+            }
+        }
+        //FOR GODS SAKE JUST BUILD A BULLET MANAGER FOR THE PLAYER PLEASE!!!
     }
+
+
 }

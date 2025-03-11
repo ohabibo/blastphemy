@@ -27,6 +27,7 @@ namespace Blok3Game.content.Scripts
         public Player(Texture2D playerSprite, GameState _GameState) : base()
         {
             blasphemyAbility = new Blasphemy();
+            bullets = new List<PlayerAttack>();
             gameState = _GameState;
             sprite = playerSprite;
             maxHitPoints = 1000;
@@ -134,8 +135,8 @@ namespace Blok3Game.content.Scripts
                     }
                 }
             }
-            bullets.Add(new PlayerAttack(Vector2.Normalize(closestEnemy - this.position) * bulletspeed));
-
+            Console.WriteLine("cheese");
+            bullets.Add(new PlayerAttack(Vector2.Normalize(closestEnemy - this.position) * bulletspeed, gameState.playerBulletTexture));
         }
         public void AddToBlasphemy(float increment)
         {
