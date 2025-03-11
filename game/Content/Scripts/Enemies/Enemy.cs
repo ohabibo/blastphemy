@@ -5,6 +5,7 @@ using Blok3Game.Engine.GameObjects;
 using Blok3Game.Engine.Helpers;
 using System.Runtime.CompilerServices;
 using Blok3Game.content.Scripts.Managers;
+using Blok3Game.content.Scripts;
 
 namespace Blok3Game.content.Scripts.Enemies
 {
@@ -47,7 +48,7 @@ namespace Blok3Game.content.Scripts.Enemies
 
             shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (shootTimer >= shootInterval) {
-                enemyBulletManager.SpawnEnemyBullet();
+                enemyBulletManager.SpawnAimedEnemyBullet1(position);
                 shootTimer = 0;
             }
 

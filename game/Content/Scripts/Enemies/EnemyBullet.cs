@@ -11,22 +11,25 @@ namespace Blok3Game.content.Scripts.Enemies
     {
         private Vector2 targetPosition;
         private float speed = 250f;
-        private float timer;
-        private float deathTime = 0f;
+        //private float timer;
+        //private float deathTime = 0f;
+        private Vector2 direction;
         private Texture2D enemyBulletSprite;
-        public EnemyBullet(Texture2D sprite) : base() 
+        public EnemyBullet(Texture2D sprite, Vector2 enemyPos, Vector2 playerPos) : base() 
         {
             enemyBulletSprite = sprite;
+            position = enemyPos;
+            targetPosition = playerPos;
+            direction = targetPosition - position;
         }
 
         public void SetTargetPosition(Vector2 playerPos)
         {
-            targetPosition = playerPos;
+             targetPosition = playerPos;
         }
 
         public override void Update(GameTime gameTime)
         {
-            Vector2 direction = targetPosition - position;
             if(direction != Vector2.Zero)
             {
                 direction.Normalize();
