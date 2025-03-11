@@ -9,10 +9,8 @@ namespace Blok3Game.content.Scripts
 {
     public class PlayerAttack : GameObject
     {
-        private Vector2 direction;
-        private PlayerAttack(Vector2 _direction, Vector2 _velocity)
+        public PlayerAttack(Vector2 _velocity)
         {
-            direction = _direction;
             velocity = _velocity;
         }
         public override void Update(GameTime gameTime)

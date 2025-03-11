@@ -43,5 +43,8 @@ namespace Blok3Game.content.Scripts.Managers
             Enemy enemy = new Enemy(enemySprite);
             Add(enemy);
         }
+        public List<GameObject> GetChildren(){
+            return children;
+        }
     }
 }
