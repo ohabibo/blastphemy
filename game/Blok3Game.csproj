@@ -40,9 +40,11 @@
   <!-- FMOD references -->
     <None Include="FMOD\fmod.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <link>fmod.dll</link>
     </None>
     <None Include="FMOD\fmodstudio.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <link>fmodstudio.dll</link>
     </None>
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
