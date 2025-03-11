@@ -57,12 +57,13 @@ namespace Blok3Game.GameStates
             
             tempPlayer = new MockPlayer(playerTexture);
             Add(tempPlayer);
-            
-            enemyManager = new EnemyManager(enemyTexture, tempPlayer); // Pass the mock player
-            Add(enemyManager);
 
             enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
             Add(enemyBulletManager);
+            
+            enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager); // Pass the mock player
+            Add(enemyManager);
+
         }
 
         public void Initialize(ContentManager content)

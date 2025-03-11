@@ -15,9 +15,7 @@ namespace Blok3Game.content.Scripts.Enemies
         private float speed = 100f;
         private Texture2D enemySprite;
         private Random rand;
-        private float shootTimer;
-        private float shootInterval = 2f;
-        public EnemyBulletManager enemyBulletManager;
+
 
         public Enemy(Texture2D sprite) : base() 
         {
@@ -44,12 +42,6 @@ namespace Blok3Game.content.Scripts.Enemies
             {
                 direction.Normalize();
                 velocity = direction * speed;
-            }
-
-            shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (shootTimer >= shootInterval) {
-                enemyBulletManager.SpawnAimedEnemyBullet1(position);
-                shootTimer = 0;
             }
 
             base.Update(gameTime);
