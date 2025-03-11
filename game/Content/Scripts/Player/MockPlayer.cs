@@ -24,9 +24,6 @@ namespace Blok3Game.content.Scripts
             // Simple WASD movement for testing
             velocity = Vector2.Zero;
 
-            if(inputHelper.KeyPressed(Keys.T)){
-                 FMODAudio.Instance.SetParameter("Boss Stage",1);
-            }
             
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
                 velocity.X = -200;
