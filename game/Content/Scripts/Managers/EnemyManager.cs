@@ -31,7 +31,7 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                SpawnEnemy();
+                SpawnCrossEnemy();
                 spawnTimer = 0;
             }
 
@@ -62,6 +62,11 @@ namespace Blok3Game.content.Scripts.Managers
         private void SpawnEnemy()
         {
             Enemy enemy = new Enemy(enemySprite);
+            Add(enemy);
+        }
+        private void SpawnCrossEnemy()
+        {
+            CrossEnemy enemy = new CrossEnemy(enemySprite);
             Add(enemy);
         }
     }

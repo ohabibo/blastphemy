@@ -52,7 +52,7 @@ namespace Blok3Game.GameStates
             enemyTexture = CreateCircleTexture(32, Color.Red);
 
             // Create a orange circle texture for the enemy bullets
-            enemyBulletTexture = CreateCircleTexture(16, Color.Orange);
+            enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
             
             
             tempPlayer = new MockPlayer(playerTexture);

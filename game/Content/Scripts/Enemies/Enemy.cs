@@ -11,10 +11,10 @@ namespace Blok3Game.content.Scripts.Enemies
 {
     public class Enemy : GameObject
     {
-        private Vector2 targetPosition;
-        private float speed = 100f;
-        private Texture2D enemySprite;
-        private Random rand;
+        protected Vector2 targetPosition;
+        protected float speed = 100f;
+        protected Texture2D enemySprite;
+        protected Random rand;
 
 
         public Enemy(Texture2D sprite) : base() 
