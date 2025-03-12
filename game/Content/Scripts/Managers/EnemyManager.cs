@@ -46,5 +46,13 @@ namespace Blok3Game.content.Scripts.Managers
         public List<GameObject> GetChildren(){
             return children;
         }
+
+        public void DamageAllChildren(int damage)
+        {
+            foreach (Enemy enemy in children)
+            {
+                enemy.Damage(damage);
+            }
+        }
     }
 }

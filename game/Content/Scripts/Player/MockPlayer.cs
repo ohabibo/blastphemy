@@ -26,11 +26,13 @@ namespace Blok3Game.content.Scripts
         private int bulletspeed;
         private float attackCooldownCounter;
         private float attackCooldown;
-        public Player(Texture2D playerSprite, GameState _GameState) : base()
+        private int baseAttackDamage;
+        private int abilityAttackDamage;
+        public Player(Texture2D playerSprite, GameState _gameState) : base()
         {
-            blasphemyAbility = new Blasphemy();
             bullets = new List<PlayerAttack>();
-            gameState = _GameState;
+            gameState = _gameState;
+            blasphemyAbility = new Blasphemy(_gameState);
             sprite = playerSprite;
             maxHitPoints = 1000;
             hitPoints = maxHitPoints;
@@ -40,6 +42,8 @@ namespace Blok3Game.content.Scripts
             attackCooldownCounter = 0f;
             attackCooldown = 250f;
             blasphemyCharge = 0f;
+            baseAttackDamage = 10;
+            abilityAttackDamage = 50;
             // Start at bottom center
             position = new Vector2(400, 500); // Adjust for your screen dimensions
         }
@@ -51,6 +55,8 @@ namespace Blok3Game.content.Scripts
             {
                 if (attackCooldownCounter <= 0) { DoBaseAttack(); attackCooldownCounter = attackCooldown; }
             }
+            if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F))
+                DoBlasphemy();
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
                 velocity.X = -1;
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
@@ -140,6 +146,7 @@ namespace Blok3Game.content.Scripts
             List<GameObject> Enemies = gameState.enemyManager.GetChildren();
             foreach (GameObject obj in Enemies)
             {
+                if (!obj.Visible){ continue; }
                 if (closestEnemy == Vector2.Zero)
                 {
                     closestEnemy = obj.Position;
@@ -159,14 +166,19 @@ namespace Blok3Game.content.Scripts
         public void AddToBlasphemy(float increment)
         {
             float newValue = blasphemyCharge + increment;
-            if (newValue > 0)
+            if (newValue > 0 && newValue <= 100)
             {
                 blasphemyCharge = newValue;
             }
         }
         private void DoBlasphemy()
-        {
-            blasphemyCharge -= 100;
+        {                
+            blasphemyAbility.trigger(abilityAttackDamage); //REMOVE WHEN ITS POSSIBLE TO GAIN BLASPHEMY CHARGE
+            if (blasphemyCharge == 100)
+            {
+                blasphemyCharge -= 100;
+                blasphemyAbility.trigger(abilityAttackDamage);
+            }
         }
     }
 }

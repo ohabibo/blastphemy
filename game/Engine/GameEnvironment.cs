@@ -30,7 +30,7 @@ public class GameEnvironment : Game
         assetManager = new AssetManager(Content);
         gameSettingsManager = new GameSettingsManager();
         IsMouseVisible = true;
-        FullScreen = true; // Start in fullscreen mode
+        FullScreen = false; // Start in fullscreen mode
     }
 
     protected override void Initialize()
