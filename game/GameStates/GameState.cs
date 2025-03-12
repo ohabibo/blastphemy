@@ -47,9 +47,6 @@ namespace Blok3Game.GameStates
 
         public void LoadContent(ContentManager content)
         {
-
-
-
             FMODAudio.Instance.PlayMusic("event:/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
