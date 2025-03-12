@@ -14,10 +14,11 @@ namespace Blok3Game.GameStates
 {
     public class GameState : GameObjectList
     {
-        private EnemyManager enemyManager;
+        public EnemyManager enemyManager;
         private Texture2D enemyTexture;
         private Texture2D playerTexture; // Added missing field declaration
-        private MockPlayer tempPlayer;
+        public Texture2D playerBulletTexture;
+        private Player tempPlayer;
         private GraphicsDevice graphicsDevice;
         
         public GameState(GraphicsDevice graphicsDevice) : base()
@@ -51,12 +52,16 @@ namespace Blok3Game.GameStates
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
             playerTexture = CreateCircleTexture(32, Color.White);
+            playerBulletTexture = CreateCircleTexture(5, Color.Yellow);
+
             
             // Create a red circle texture for the enemies
             enemyTexture = CreateCircleTexture(32, Color.Red);
+
+
             
             
-            tempPlayer = new MockPlayer(playerTexture);
+            tempPlayer = new Player(playerTexture, this);
             Add(tempPlayer);
             
             enemyManager = new EnemyManager(enemyTexture, tempPlayer); // Pass the mock player
