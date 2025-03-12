@@ -34,7 +34,7 @@ namespace Blok3Game.content.Scripts
             hitPoints = maxHitPoints;
             isAlive = true;
             maxVelocity = 200;
-            bulletspeed = 30;
+            bulletspeed = 300;
             blasphemyCharge = 0f;
             // Start at bottom center
             position = new Vector2(400, 500); // Adjust for your screen dimensions
@@ -65,10 +65,20 @@ namespace Blok3Game.content.Scripts
             {
                 spriteBatch.Draw(sprite, position, Color.White);
             }
+
+            foreach (PlayerAttack obj in bullets)
+            {
+                obj.Draw(gameTime, spriteBatch);
+            }
         }
         public override void Update(GameTime gameTime)
         {
+            foreach (PlayerAttack obj in bullets)
+            {
+                obj.Update(gameTime);
+            }
             base.Update(gameTime);
+
         }
         public void SetHP(int newHP)
         {
@@ -118,6 +128,9 @@ namespace Blok3Game.content.Scripts
         private void DoBaseAttack()
         {
             Vector2 closestEnemy = Vector2.Zero;
+            Vector2 playerPosition = this.Position;
+            playerPosition.X += 32;
+            playerPosition.Y += 32;
             List<GameObject> Enemies = gameState.enemyManager.GetChildren();
             foreach (GameObject obj in Enemies)
             {
@@ -127,16 +140,15 @@ namespace Blok3Game.content.Scripts
                 }
                 else
                 {
-                    Vector2 closestEnemyDistance =closestEnemy - this.Position;
-                    Vector2 objEnemyDistance = obj.Position - this.Position;
+                    Vector2 closestEnemyDistance = closestEnemy - playerPosition;
+                    Vector2 objEnemyDistance = obj.Position - playerPosition;
                     if (closestEnemyDistance.Length() > objEnemyDistance.Length())
                     {
                         closestEnemy = obj.Position;
                     }
                 }
             }
-            Console.WriteLine("cheese");
-            bullets.Add(new PlayerAttack(Vector2.Normalize(closestEnemy - this.position) * bulletspeed, gameState.playerBulletTexture));
+            bullets.Add(new PlayerAttack(Vector2.Normalize(closestEnemy - playerPosition) * bulletspeed, gameState.playerBulletTexture, playerPosition));
         }
         public void AddToBlasphemy(float increment)
         {
