@@ -87,7 +87,7 @@ namespace Blok3Game.GameStates
                     int index = x * diameter + y;
                     
                     // Calculate distance from center
-                    Vector2 position = new Vector2(x - radius, y - radius);
+                    Vector2 position = new Vector2(x- radius, y - radius);
                     if (position.LengthSquared() <= radiusSquared)
                     {
                         colorData[index] = color;

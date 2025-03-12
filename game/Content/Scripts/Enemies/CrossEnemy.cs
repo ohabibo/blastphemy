@@ -11,6 +11,7 @@ namespace Blok3Game.content.Scripts.Enemies
 {
     public class CrossEnemy : Enemy
     {
+        public bool crossShot = false;
         public CrossEnemy(Texture2D sprite) : base(sprite) 
         {
             enemySprite = sprite;
@@ -39,7 +40,8 @@ namespace Blok3Game.content.Scripts.Enemies
             }
             else 
             {
-                velocity = Vector2.Zero;
+                direction.Normalize();
+                velocity = direction * -speed / 3;
             }
         }
 

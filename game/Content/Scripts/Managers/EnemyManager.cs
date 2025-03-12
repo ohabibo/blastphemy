@@ -39,7 +39,20 @@ namespace Blok3Game.content.Scripts.Managers
 
             foreach (GameObject obj in children) 
             {
-                if (obj is Enemy enemy) {
+                if (obj is CrossEnemy crossEnemy) {
+                    crossEnemy.SetTargetPosition(player.Position);
+
+                    if(shootTimer > shootInterval) 
+                    {
+                        if (crossEnemy.crossShot) {
+                            enemyBulletManager.SpawnEnemyBulletCross1(crossEnemy.Position);
+                            crossEnemy.crossShot = false;
+                        } else {
+                            enemyBulletManager.SpawnEnemyBulletPlus1(crossEnemy.Position);
+                            crossEnemy.crossShot = true;
+                        }
+                    }
+                } else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
 
                     if(shootTimer > shootInterval) 
@@ -66,8 +79,8 @@ namespace Blok3Game.content.Scripts.Managers
         }
         private void SpawnCrossEnemy()
         {
-            CrossEnemy enemy = new CrossEnemy(enemySprite);
-            Add(enemy);
+            CrossEnemy crossEnemy = new CrossEnemy(enemySprite);
+            Add(crossEnemy);
         }
     }
 }
