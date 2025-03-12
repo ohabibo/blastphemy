@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.content.Scripts.Enemies;
 using Blok3Game.Engine.GameObjects;
+using System;
 
 namespace Blok3Game.content.Scripts.Managers
 {
@@ -12,11 +13,16 @@ namespace Blok3Game.content.Scripts.Managers
         private GameObject player;
         private float spawnTimer;
         private float spawnInterval = 2f;
+        public EnemyBulletManager enemyBulletManager;
 
-        public EnemyManager(Texture2D enemyTexture, GameObject playerObject) : base()
+        private float shootTimer;
+        private float shootInterval = 2f;
+
+        public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager) : base()
         {
             enemySprite = enemyTexture;
             player = playerObject;
+            enemyBulletManager = bulletManager;
         }
 
         public override void Update(GameTime gameTime)
@@ -25,16 +31,52 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                SpawnEnemy();
+                SpawnCrossEnemy();
                 spawnTimer = 0;
             }
 
+            shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             foreach (GameObject obj in children) 
             {
-                if (obj is Enemy enemy) {
+                if (obj is CrossEnemy crossEnemy) {
+                    crossEnemy.SetTargetPosition(player.Position);
+                    if(crossEnemy.GetHP() <= 0) 
+                    {
+                        Remove(obj);
+                    }
+
+                    if(shootTimer > shootInterval) 
+                    {
+                        if (crossEnemy.crossShot) {
+                            enemyBulletManager.SpawnEnemyBulletCross1(crossEnemy.Position);
+                            crossEnemy.crossShot = false;
+                        } else {
+                            enemyBulletManager.SpawnEnemyBulletPlus1(crossEnemy.Position);
+                            crossEnemy.crossShot = true;
+                        }
+                    }
+                } else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
+                    if(enemy.GetHP() <= 0) 
+                    {
+                        Remove(obj);
+                    }
+
+                    if(shootTimer > shootInterval) 
+                    {
+                        enemyBulletManager.SpawnAimedEnemyBullet1(enemy.Position);
+                    }
                 }
             }
+
+            if(shootTimer > shootInterval) 
+            {
+                shootTimer = 0;
+            }
+            //Console.WriteLine(shootTimer);
+
+
             base.Update(gameTime);
         }
 
@@ -53,6 +95,11 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 enemy.Damage(damage);
             }
+        }
+        private void SpawnCrossEnemy()
+        {
+            CrossEnemy crossEnemy = new CrossEnemy(enemySprite);
+            Add(crossEnemy);
         }
     }
 }

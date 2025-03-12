@@ -16,6 +16,8 @@ namespace Blok3Game.GameStates
     {
         public EnemyManager enemyManager;
         private Texture2D enemyTexture;
+        private EnemyBulletManager enemyBulletManager;
+        private Texture2D enemyBulletTexture;
         private Texture2D playerTexture; // Added missing field declaration
         public Texture2D playerBulletTexture;
         private Player tempPlayer;
@@ -58,14 +60,19 @@ namespace Blok3Game.GameStates
             // Create a red circle texture for the enemies
             enemyTexture = CreateCircleTexture(32, Color.Red);
 
-
+            // Create a orange circle texture for the enemy bullets
+            enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
             
             
             tempPlayer = new Player(playerTexture, this);
             Add(tempPlayer);
+
+            enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
+            Add(enemyBulletManager);
             
-            enemyManager = new EnemyManager(enemyTexture, tempPlayer); // Pass the mock player
+            enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager); // Pass the mock player
             Add(enemyManager);
+
         }
 
         public void Initialize(ContentManager content)
@@ -89,7 +96,7 @@ namespace Blok3Game.GameStates
                     int index = x * diameter + y;
                     
                     // Calculate distance from center
-                    Vector2 position = new Vector2(x - radius, y - radius);
+                    Vector2 position = new Vector2(x- radius, y - radius);
                     if (position.LengthSquared() <= radiusSquared)
                     {
                         colorData[index] = color;
