@@ -24,6 +24,8 @@ namespace Blok3Game.content.Scripts
         private List<PlayerAttack> bullets;
         private Blasphemy blasphemyAbility;
         private int bulletspeed;
+        private float attackCooldownCounter;
+        private float attackCooldown;
         public Player(Texture2D playerSprite, GameState _GameState) : base()
         {
             blasphemyAbility = new Blasphemy();
@@ -35,6 +37,8 @@ namespace Blok3Game.content.Scripts
             isAlive = true;
             maxVelocity = 200;
             bulletspeed = 300;
+            attackCooldownCounter = 0f;
+            attackCooldown = 250f;
             blasphemyCharge = 0f;
             // Start at bottom center
             position = new Vector2(400, 500); // Adjust for your screen dimensions
@@ -44,7 +48,9 @@ namespace Blok3Game.content.Scripts
             // Simple WASD movement for testing
             velocity = Vector2.Zero;
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space))
-                DoBaseAttack();
+            {
+                if (attackCooldownCounter <= 0) { DoBaseAttack(); attackCooldownCounter = attackCooldown; }
+            }
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
                 velocity.X = -1;
             if (inputHelper.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
@@ -73,12 +79,12 @@ namespace Blok3Game.content.Scripts
         }
         public override void Update(GameTime gameTime)
         {
+            if (attackCooldownCounter > 0) { attackCooldownCounter -= (float)gameTime.ElapsedGameTime.TotalMilliseconds; }
             foreach (PlayerAttack obj in bullets)
             {
                 obj.Update(gameTime);
             }
             base.Update(gameTime);
-
         }
         public void SetHP(int newHP)
         {
