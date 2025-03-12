@@ -77,6 +77,17 @@ namespace Blok3Game.content.Scripts.Managers
             Enemy enemy = new Enemy(enemySprite);
             Add(enemy);
         }
+        public List<GameObject> GetChildren(){
+            return children;
+        }
+
+        public void DamageAllChildren(int damage)
+        {
+            foreach (Enemy enemy in children)
+            {
+                enemy.Damage(damage);
+            }
+        }
         private void SpawnCrossEnemy()
         {
             CrossEnemy crossEnemy = new CrossEnemy(enemySprite);
