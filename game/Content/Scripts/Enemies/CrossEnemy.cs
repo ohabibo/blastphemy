@@ -24,8 +24,12 @@ namespace Blok3Game.content.Scripts.Enemies
             position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
         }
 
+        public new void SetTargetPosition(Vector2 playerPos)
+        {
+            targetPosition = playerPos;
+        }
 
-        public override void Update(GameTime gameTime)
+        public override void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;
             if(Vector2.Distance(position, targetPosition) >= 500)
@@ -33,7 +37,15 @@ namespace Blok3Game.content.Scripts.Enemies
                 direction.Normalize();
                 velocity = direction * speed;
             }
+            else 
+            {
+                velocity = Vector2.Zero;
+            }
+        }
 
+
+        public override void Update(GameTime gameTime)
+        {
             base.Update(gameTime);
         }
     }
