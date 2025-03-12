@@ -41,6 +41,10 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 if (obj is CrossEnemy crossEnemy) {
                     crossEnemy.SetTargetPosition(player.Position);
+                    if(crossEnemy.GetHP() <= 0) 
+                    {
+                        Remove(obj);
+                    }
 
                     if(shootTimer > shootInterval) 
                     {
@@ -54,6 +58,10 @@ namespace Blok3Game.content.Scripts.Managers
                     }
                 } else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
+                    if(enemy.GetHP() <= 0) 
+                    {
+                        Remove(obj);
+                    }
 
                     if(shootTimer > shootInterval) 
                     {
@@ -66,7 +74,7 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 shootTimer = 0;
             }
-            Console.WriteLine(shootTimer);
+            //Console.WriteLine(shootTimer);
 
 
             base.Update(gameTime);

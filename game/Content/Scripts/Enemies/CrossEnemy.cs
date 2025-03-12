@@ -14,6 +14,8 @@ namespace Blok3Game.content.Scripts.Enemies
         public bool crossShot = false;
         public CrossEnemy(Texture2D sprite) : base(sprite) 
         {
+            maxHitPoints = 20;
+            hitPoints = maxHitPoints;
             enemySprite = sprite;
             rand = new Random();
             SpawnAboveScreen();
@@ -40,8 +42,7 @@ namespace Blok3Game.content.Scripts.Enemies
             }
             else 
             {
-                direction.Normalize();
-                velocity = direction * -speed / 3;
+                velocity = Vector2.Zero;
             }
         }
 

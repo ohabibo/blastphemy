@@ -64,7 +64,7 @@ namespace Blok3Game.GameStates
             enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
             
             
-            tempPlayer = new MockPlayer(playerTexture);
+            tempPlayer = new Player(playerTexture, this);
             Add(tempPlayer);
 
             enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
