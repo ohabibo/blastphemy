@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.Engine;
 using Blok3Game.Engine.Helpers;
+using Blok3Game.content.Scripts.Audio;
+using System.Net.Sockets;
+using Microsoft.Xna.Framework.Input;
 
 namespace Blok3Game.GameStates
 {
@@ -29,6 +32,8 @@ namespace Blok3Game.GameStates
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+             FMODAudio.Instance.Update();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -42,6 +47,7 @@ namespace Blok3Game.GameStates
 
         public void LoadContent(ContentManager content)
         {
+            FMODAudio.Instance.PlayMusic("event:/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
             playerTexture = CreateCircleTexture(32, Color.White);

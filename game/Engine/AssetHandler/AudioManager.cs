@@ -47,7 +47,7 @@ namespace Blok3Game.Engine.AssetHandler
                     songs[name] = contentManager.Load<Song>("Audio/Music/" + name);
                 }
             }
-            PlaySong("main_menu", true);
+            //PlaySong("main_menu", true);
         }
 
         /// <summary>
