@@ -41,11 +41,6 @@ namespace Blok3Game.content.Scripts.Enemies
             targetPosition = playerPos;
         }
 
-        public bool CheckCollision(Rectangle other)
-        {
-            return BoundingBox.Intersects(other);
-        }
-
         public virtual void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;

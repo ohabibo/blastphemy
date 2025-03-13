@@ -16,7 +16,7 @@ namespace Blok3Game.GameStates
     {
         public EnemyManager enemyManager;
         private Texture2D enemyTexture;
-        private EnemyBulletManager enemyBulletManager;
+        public EnemyBulletManager enemyBulletManager;
         private Texture2D enemyBulletTexture;
         private Texture2D playerTexture; // Added missing field declaration
         public Texture2D playerBulletTexture;
