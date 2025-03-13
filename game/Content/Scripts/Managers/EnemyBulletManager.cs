@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.content.Scripts.Enemies;
 using Blok3Game.Engine.GameObjects;
+using System;
 
 namespace Blok3Game.content.Scripts.Managers
 {
@@ -84,6 +85,9 @@ namespace Blok3Game.content.Scripts.Managers
             offset1.X += 2;
             enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
             Add(enemyBullet);
+        }
+        public List<GameObject> GetChildren(){
+            return children;
         }
     }
 }
