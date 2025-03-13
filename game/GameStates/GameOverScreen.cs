@@ -2,7 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using Blok3Game.Engine.GameObjects; 
+using Blok3Game.Engine.GameObjects;
+using Blok3Game.content.Scripts.Audio; // Add this using directive
 
 namespace Blok3Game.GameStates
 {
@@ -13,7 +14,7 @@ namespace Blok3Game.GameStates
         private GraphicsDevice graphicsDevice;
         private ContentManager content;
         private SpriteFont font;
-        private string message = "YOU COMMITTED A HERESY!\nPress R to Restart";
+        private string message = "YOU COMMITTED A HERESY !\nPress R to Restart";
 
         public GameOverScreen(GraphicsDevice graphicsDevice, ContentManager content, SpriteFont font)
             : base()
@@ -35,6 +36,9 @@ namespace Blok3Game.GameStates
 
         private void RestartGame()
         {
+            // Stop and reset audio first
+            FMODAudio.Instance.StopAndReset();
+
             // Create a fresh game state instance and initialize its content.
             GameState newState = new GameState(graphicsDevice);
             newState.Initialize(content);
