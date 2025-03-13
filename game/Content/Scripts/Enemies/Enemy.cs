@@ -4,21 +4,25 @@ using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.Engine.GameObjects;
 using Blok3Game.Engine.Helpers;
 using System.Runtime.CompilerServices;
+using Blok3Game.content.Scripts.Managers;
+using Blok3Game.content.Scripts;
 
 namespace Blok3Game.content.Scripts.Enemies
 {
     public class Enemy : GameObject
     {
-        private Vector2 targetPosition;
-        private float speed = 100f;
-        private int hitPoints;
+        protected Vector2 targetPosition;
+        protected float speed = 100f;
+        protected int hitPoints;
         private bool isAlive;
-        private int maxHitPoints;
-        private Texture2D enemySprite;
-        private Random rand;
+        protected int maxHitPoints;
+        protected Texture2D enemySprite;
+        protected Random rand;
+
+
         public Enemy(Texture2D sprite) : base() 
         {
-            maxHitPoints = 10;
+            maxHitPoints = 20;
             hitPoints = maxHitPoints;
             isAlive = true;
             enemySprite = sprite;
@@ -37,7 +41,12 @@ namespace Blok3Game.content.Scripts.Enemies
             targetPosition = playerPos;
         }
 
-        public override void Update(GameTime gameTime)
+        public bool CheckCollision(Rectangle other)
+        {
+            return BoundingBox.Intersects(other);
+        }
+
+        public virtual void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;
             if(direction != Vector2.Zero)
@@ -45,7 +54,11 @@ namespace Blok3Game.content.Scripts.Enemies
                 direction.Normalize();
                 velocity = direction * speed;
             }
+        }
 
+        public override void Update(GameTime gameTime)
+        {
+            UpdateMovement(gameTime);
             if(!isAlive)
             {
                 visible = false;
@@ -68,11 +81,11 @@ namespace Blok3Game.content.Scripts.Enemies
                 if (enemySprite != null)
                 {
                     return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y, 
-                                          enemySprite.Width, enemySprite.Height);                }
+                            enemySprite.Width, enemySprite.Height); }
                 return base.BoundingBox;
             }
         }
-                public void SetHP(int newHP)
+        public void SetHP(int newHP)
         {
             if (newHP >= 0)
             {
@@ -80,6 +93,7 @@ namespace Blok3Game.content.Scripts.Enemies
             }
             else { Console.WriteLine("Failed to setHP due to invalid input. HP cannot be lower than 0 Inputted HP was " + newHP); }
         }
+
         public void Damage(int damage)
         {
             int newHP = hitPoints;
@@ -106,8 +120,10 @@ namespace Blok3Game.content.Scripts.Enemies
                 { hitPoints = newHP; }
                 else { if (newHP >= maxHitPoints) { hitPoints = maxHitPoints; } else { hitPoints = newHP; } }
             }
-            else { Console.WriteLine("Player.Heal failed please input a positive value"); }
+            else { Console.WriteLine("Enemy.Heal failed please input a positive value"); }
         }
         public int GetHP() { return hitPoints; }
+
+        public bool IsAlive() { return isAlive; }
     }
 }

@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Blok3Game.Engine;
 using Blok3Game.Engine.Helpers;
+using Blok3Game.content.Scripts.Audio;
+using System.Net.Sockets;
+using Microsoft.Xna.Framework.Input;
 
 namespace Blok3Game.GameStates
 {
@@ -13,9 +16,11 @@ namespace Blok3Game.GameStates
     {
         public EnemyManager enemyManager;
         private Texture2D enemyTexture;
+        private EnemyBulletManager enemyBulletManager;
+        private Texture2D enemyBulletTexture;
         private Texture2D playerTexture; // Added missing field declaration
-        private Player tempPlayer;
         public Texture2D playerBulletTexture;
+        private Player tempPlayer;
         private GraphicsDevice graphicsDevice;
         
         public GameState(GraphicsDevice graphicsDevice) : base()
@@ -30,6 +35,8 @@ namespace Blok3Game.GameStates
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+             FMODAudio.Instance.Update();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -43,20 +50,29 @@ namespace Blok3Game.GameStates
 
         public void LoadContent(ContentManager content)
         {
+            FMODAudio.Instance.PlayMusic("event:/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
             playerTexture = CreateCircleTexture(32, Color.White);
             playerBulletTexture = CreateCircleTexture(5, Color.Yellow);
+
             
             // Create a red circle texture for the enemies
             enemyTexture = CreateCircleTexture(32, Color.Red);
+
+            // Create a orange circle texture for the enemy bullets
+            enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
             
             
             tempPlayer = new Player(playerTexture, this);
             Add(tempPlayer);
+
+            enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
+            Add(enemyBulletManager);
             
-            enemyManager = new EnemyManager(enemyTexture, tempPlayer); // Pass the mock player
+            enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager); // Pass the mock player
             Add(enemyManager);
+
         }
 
         public void Initialize(ContentManager content)
@@ -80,7 +96,7 @@ namespace Blok3Game.GameStates
                     int index = x * diameter + y;
                     
                     // Calculate distance from center
-                    Vector2 position = new Vector2(x - radius, y - radius);
+                    Vector2 position = new Vector2(x- radius, y - radius);
                     if (position.LengthSquared() <= radiusSquared)
                     {
                         colorData[index] = color;
