@@ -15,6 +15,7 @@ namespace Blok3Game.content.Scripts.Enemies
         //private float deathTime = 0f;
         private Vector2 direction;
         private Texture2D enemyBulletSprite;
+        private int damage = 10;
         public EnemyBullet(Texture2D sprite, Vector2 enemyPos, Vector2 playerPos) : base() 
         {
             enemyBulletSprite = sprite;
@@ -47,6 +48,11 @@ namespace Blok3Game.content.Scripts.Enemies
             }
         }
 
+        public bool CheckCollision(Rectangle other)
+        {
+            return BoundingBox.Intersects(other);
+        }
+
         public override Rectangle BoundingBox 
         {
             get
@@ -58,5 +64,7 @@ namespace Blok3Game.content.Scripts.Enemies
                 return base.BoundingBox;
             }
         }
+
+        public int Damage { get => damage; set => damage = value; }
     }
 }

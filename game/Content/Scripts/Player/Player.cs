@@ -36,7 +36,7 @@ namespace Blok3Game.content.Scripts
             gameState = _gameState;
             blasphemyAbility = new Blasphemy(_gameState);
             sprite = playerSprite;
-            maxHitPoints = 1000;
+            maxHitPoints = 100;
             hitPoints = maxHitPoints;
             isAlive = true;
             maxVelocity = 200;
@@ -107,6 +107,21 @@ namespace Blok3Game.content.Scripts
                             bullets.Remove(bullet);
                             break;
                         }
+                    }
+                }
+            }
+
+            foreach(GameObject obj in gameState.enemyBulletManager.GetChildren()) 
+            {
+                if(obj is EnemyBullet enemyBullet && enemyBullet.Visible)
+                {
+                    if (enemyBullet.CheckCollision(this.BoundingBox))
+                    {
+                        this.Damage(enemyBullet.Damage);
+                        gameState.enemyBulletManager.Remove(enemyBullet);
+                        Console.WriteLine($"Player hit by enemy bullet. Player HP: {hitPoints}");
+                        // TODO: Add the UI changes for the health
+                        enemyBullet.Visible = false;
                     }
                 }
             }
@@ -199,6 +214,11 @@ namespace Blok3Game.content.Scripts
                 blasphemyCharge -= 100;
                 blasphemyAbility.trigger(abilityAttackDamage);
             }
+        }
+
+        public override Rectangle BoundingBox
+        {
+            get {return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height); }
         }
     }
 }
