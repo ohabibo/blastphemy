@@ -118,10 +118,11 @@ namespace Blok3Game.content.Scripts
                     if (enemyBullet.CheckCollision(this.BoundingBox))
                     {
                         this.Damage(enemyBullet.Damage);
+                        // Update the shield UI as well:
+                        gameState.shieldProgressBar.TakeDamage();
+                        enemyBullet.Visible = false;
                         gameState.enemyBulletManager.Remove(enemyBullet);
                         Console.WriteLine($"Player hit by enemy bullet. Player HP: {hitPoints}");
-                        // TODO: Add the UI changes for the health
-                        enemyBullet.Visible = false;
                     }
                 }
             }

@@ -44,6 +44,9 @@ namespace BaseProject
             GameState gameState = new GameState(GraphicsDevice);
             gameState.Initialize(Content); 
             
+            // Set the shield UI for the game state:
+            gameState.shieldProgressBar = shieldProgressBar;
+
             GameStateManager.AddGameState("GAME_STATE", gameState);
             GameStateManager.SwitchToState("GAME_STATE");
 
@@ -65,7 +68,8 @@ namespace BaseProject
             else
             {
                 base.Update(gameTime);
-                shieldProgressBar.UpdateShield(100); // Example value
+                // Update the shield's timers, but don't call TakeDamage() here.
+                shieldProgressBar.Update(gameTime);
             }
         }
 
@@ -80,8 +84,15 @@ namespace BaseProject
             else
             {
                 base.Draw(gameTime);
+
                 spriteBatch.Begin();
-                shieldProgressBar.Draw(spriteBatch, GraphicsDevice); // Pass the GraphicsDevice
+
+                // Use the shieldProgressBar from the current game state.
+                if (GameEnvironment.GameStateManager.CurrentGameState is GameState currentState && currentState.shieldProgressBar != null)
+                {
+                    currentState.shieldProgressBar.Draw(spriteBatch, GraphicsDevice);
+                }
+
                 spriteBatch.End();
             }
         }

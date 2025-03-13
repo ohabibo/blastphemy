@@ -4,6 +4,7 @@ using Blok3Game.Engine.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Blok3Game.GameStates;
 
 public class GameEnvironment : Game
 {
@@ -143,8 +144,12 @@ public class GameEnvironment : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, spriteScale);
-        gameStateManager.Draw(gameTime, spriteBatch);
+        
+        // Always wrap drawing in a Begin/End pair.
+        spriteBatch.Begin(sortMode: SpriteSortMode.Deferred, transformMatrix: spriteScale);
+        
+        GameStateManager.CurrentGameState.Draw(gameTime, spriteBatch);
+        
         spriteBatch.End();
     }
 }

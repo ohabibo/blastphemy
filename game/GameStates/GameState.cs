@@ -22,7 +22,12 @@ namespace Blok3Game.GameStates
         public Texture2D playerBulletTexture;
         private Player tempPlayer;
         private GraphicsDevice graphicsDevice;
+        public ShieldProgressBar shieldProgressBar { get; set; }
         
+        // Add these fields:
+        private ContentManager content;
+        private SpriteFont shieldFont; // assign this to the font you need for the shield UI
+
         public GameState(GraphicsDevice graphicsDevice) : base()
         {           
             this.graphicsDevice = graphicsDevice;     
@@ -34,9 +39,26 @@ namespace Blok3Game.GameStates
 
         public override void Update(GameTime gameTime)
         {
+            // Update game objects
             base.Update(gameTime);
 
-             FMODAudio.Instance.Update();
+            // Update the shield (timers, etc.)
+            if (shieldProgressBar != null)
+            {
+                shieldProgressBar.Update(gameTime);
+                
+                // Check if shield has reached 0%
+                if (shieldProgressBar.IsGameOver)
+                {
+                    // Transition to the Game Over screen
+                    GameEnvironment.GameStateManager.AddGameState("GAME_OVER", 
+                        new GameOverScreen(graphicsDevice, content, shieldFont));
+                    GameEnvironment.GameStateManager.SwitchToState("GAME_OVER");
+                    return; // Prevent further update in the current state.
+                }
+            }
+
+            FMODAudio.Instance.Update();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -50,6 +72,9 @@ namespace Blok3Game.GameStates
 
         public void LoadContent(ContentManager content)
         {
+            // Store the ContentManager for later use.
+            this.content = content;
+            
             FMODAudio.Instance.PlayMusic("event:/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
@@ -73,6 +98,8 @@ namespace Blok3Game.GameStates
             enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager); // Pass the mock player
             Add(enemyManager);
 
+            // Optionally load the shield font here
+            shieldFont = content.Load<SpriteFont>("Assets/Fonts/shieldfont");
         }
 
         public void Initialize(ContentManager content)
