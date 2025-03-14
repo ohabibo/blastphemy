@@ -96,7 +96,7 @@ namespace Blok3Game.content.Scripts
 
             foreach (GameObject obj in gameState.enemyManager.GetChildren())
             {
-                if (obj is CrossEnemy enemy && enemy.Visible)
+                if (obj is Enemy enemy && enemy.Visible)
                 {
                     foreach (PlayerAttack bullet in bullets)
                     {
