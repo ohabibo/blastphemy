@@ -152,5 +152,26 @@ namespace Blok3Game.content.Scripts.Audio
             studioSystem.release();
             system.release();
         }
+
+        public void StopAndReset()
+        {
+            if (eventInstance.hasHandle())
+            {
+                // Stop the current event
+                eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                // Release the event instance
+                eventInstance.release();
+            }
+
+            // Flush any pending commands
+            studioSystem.flushCommands();
+
+            // Reset the system state
+            system.mixerSuspend();
+            system.mixerResume();
+
+            // Reinitialize if needed
+            Initialize();
+        }
     }
 }

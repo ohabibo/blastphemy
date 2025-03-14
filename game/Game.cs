@@ -16,6 +16,7 @@ namespace BaseProject
         private SpriteFont shieldFont;
         private ShieldProgressBar shieldProgressBar;
         private Texture2D shieldTexture;
+        private Texture2D abilityTexture;
 
         public Game() : base()
         {
@@ -35,13 +36,17 @@ namespace BaseProject
             font = Content.Load<SpriteFont>("Assets/Fonts/gamefont");
             shieldFont = Content.Load<SpriteFont>("Assets/Fonts/shieldfont"); // Load the shieldfont for the shield percentage text
             shieldTexture = Content.Load<Texture2D>("Assets/Sprites/Shield/shield");
+            abilityTexture = Content.Load<Texture2D>("Assets/Sprites/Ability/ability"); // Load the ability texture
 
             introScreen = new IntroScreen(logoTexture, font);
-            shieldProgressBar = new ShieldProgressBar(shieldTexture, 100, shieldFont);
+            shieldProgressBar = new ShieldProgressBar(shieldTexture, abilityTexture, 100, shieldFont);
 
             GameState gameState = new GameState(GraphicsDevice);
             gameState.Initialize(Content); 
             
+            // Set the shield UI for the game state:
+            gameState.shieldProgressBar = shieldProgressBar;
+
             GameStateManager.AddGameState("GAME_STATE", gameState);
             GameStateManager.SwitchToState("GAME_STATE");
 
@@ -63,7 +68,8 @@ namespace BaseProject
             else
             {
                 base.Update(gameTime);
-                shieldProgressBar.UpdateShield(80); // Example value
+                // Update the shield's timers, but don't call TakeDamage() here.
+                shieldProgressBar.Update(gameTime);
             }
         }
 
@@ -78,8 +84,15 @@ namespace BaseProject
             else
             {
                 base.Draw(gameTime);
+
                 spriteBatch.Begin();
-                shieldProgressBar.Draw(spriteBatch);
+
+                // Use the shieldProgressBar from the current game state.
+                if (GameEnvironment.GameStateManager.CurrentGameState is GameState currentState && currentState.shieldProgressBar != null)
+                {
+                    currentState.shieldProgressBar.Draw(spriteBatch, GraphicsDevice);
+                }
+
                 spriteBatch.End();
             }
         }
