@@ -18,6 +18,8 @@ namespace Blok3Game.content.Scripts.Managers
         private float shootTimer;
         private float shootInterval = 2f;
 
+        private Random rand = new Random();
+
         public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager) : base()
         {
             enemySprite = enemyTexture;
@@ -31,7 +33,11 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                SpawnCrossEnemy();
+                if (rand.Next(0, 2) == 1) {
+                    SpawnEnemy();
+                } else {
+                    SpawnCrossEnemy();
+                }
                 spawnTimer = 0;
             }
 
