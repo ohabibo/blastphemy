@@ -88,32 +88,41 @@ namespace Blok3Game.content.Scripts
         }
         public override void Update(GameTime gameTime)
         {
-            if (attackCooldownCounter > 0) { attackCooldownCounter -= (float)gameTime.ElapsedGameTime.TotalMilliseconds; }
+            if (attackCooldownCounter > 0) 
+                attackCooldownCounter -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            
             foreach (PlayerAttack obj in bullets)
             {
                 obj.Update(gameTime);
             }
 
-            foreach (GameObject obj in gameState.enemyManager.GetChildren())
+            // Use a reverse for-loop or copy the list to avoid collection modification issues.
+            var enemyObjects = gameState.enemyManager.GetChildren();
+            for (int i = enemyObjects.Count - 1; i >= 0; i--)
             {
+                GameObject obj = enemyObjects[i];
                 if (obj is CrossEnemy enemy && enemy.Visible)
                 {
-                    foreach (PlayerAttack bullet in bullets)
+                    // Iterate over bullets in reverse to safely remove hit bullets.
+                    for (int j = bullets.Count - 1; j >= 0; j--)
                     {
+                        PlayerAttack bullet = bullets[j];
                         if (bullet.CheckCollision(enemy.BoundingBox))
                         {
                             enemy.Damage(bullet.Damage);
                             bullet.Visible = false;
-                            bullets.Remove(bullet);
-                            break;
+                            bullets.RemoveAt(j);
+                            
+                            // Trigger hit combo logic on enemy hit.
+                            gameState.OnEnemyHit();
                         }
                     }
                 }
             }
 
-            foreach(GameObject obj in gameState.enemyBulletManager.GetChildren()) 
+            foreach (GameObject obj in gameState.enemyBulletManager.GetChildren()) 
             {
-                if(obj is EnemyBullet enemyBullet && enemyBullet.Visible)
+                if (obj is EnemyBullet enemyBullet && enemyBullet.Visible)
                 {
                     if (enemyBullet.CheckCollision(this.BoundingBox))
                     {

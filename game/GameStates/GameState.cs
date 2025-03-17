@@ -9,6 +9,7 @@ using Blok3Game.Engine.Helpers;
 using Blok3Game.content.Scripts.Audio;
 using System.Net.Sockets;
 using Microsoft.Xna.Framework.Input;
+using Blok3Game.Engine.UI;
 
 namespace Blok3Game.GameStates
 {
@@ -27,6 +28,8 @@ namespace Blok3Game.GameStates
         // Add these fields:
         private ContentManager content;
         private SpriteFont shieldFont; // assign this to the font you need for the shield UI
+        private HitComboCounter hitComboCounter;
+        private SpriteFont uiFont;  // assign via LoadContent
 
         public GameState(GraphicsDevice graphicsDevice) : base()
         {           
@@ -39,35 +42,49 @@ namespace Blok3Game.GameStates
 
         public override void Update(GameTime gameTime)
         {
-            // Update game objects
             base.Update(gameTime);
-
-            // Update the shield (timers, etc.)
+            
+            // Debug: The following block triggers the hit combo UI when H is pressed.
+            // It is now commented out.
+            /*
+            if (Keyboard.GetState().IsKeyDown(Keys.H))
+            {
+                OnEnemyHit();
+            }
+            */
+            
             if (shieldProgressBar != null)
             {
                 shieldProgressBar.Update(gameTime);
-                
-                // Check if shield has reached 0%
                 if (shieldProgressBar.IsGameOver)
                 {
-                    // Transition to the Game Over screen
                     GameEnvironment.GameStateManager.AddGameState("GAME_OVER", 
                         new GameOverScreen(graphicsDevice, content, shieldFont));
                     GameEnvironment.GameStateManager.SwitchToState("GAME_OVER");
-                    return; // Prevent further update in the current state.
+                    return;
                 }
             }
-
+            
+            if (hitComboCounter != null)
+                hitComboCounter.Update(gameTime);
+            
             FMODAudio.Instance.Update();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // Add this line to see if anything is drawing
-            // Set a background color other than black to verify the Draw method is being called
             spriteBatch.GraphicsDevice.Clear(Color.DarkBlue);
             
             base.Draw(gameTime, spriteBatch);
+
+// Inside the Draw method, update the hit combo counter drawing:
+            if(hitComboCounter != null)
+            {
+                // Use the same font used by HitComboCounter (uiFont) for measuring the text.
+                Vector2 textSize = uiFont.MeasureString(hitComboCounter.GetDisplayText());
+                Vector2 position = new Vector2((graphicsDevice.Viewport.Width - textSize.X) / 2, 20);
+                hitComboCounter.Draw(spriteBatch, position, Color.Yellow);
+            }
         }
 
         public void LoadContent(ContentManager content)
@@ -100,6 +117,9 @@ namespace Blok3Game.GameStates
 
             // Optionally load the shield font here
             shieldFont = content.Load<SpriteFont>("Assets/Fonts/shieldfont");
+
+            uiFont = content.Load<SpriteFont>("Assets/Fonts/shieldfont");
+            hitComboCounter = new HitComboCounter(uiFont);
         }
 
         public void Initialize(ContentManager content)
@@ -137,6 +157,12 @@ namespace Blok3Game.GameStates
             
             texture.SetData(colorData);
             return texture;
+        }
+
+        // Call this method from wherever the enemy hit is confirmed, for example from Player or Enemy collision logic.
+        public void OnEnemyHit()
+        {
+            hitComboCounter?.RegisterHit();
         }
     }
 }
