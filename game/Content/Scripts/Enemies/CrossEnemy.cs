@@ -14,7 +14,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public bool crossShot = false;
         public CrossEnemy(Texture2D sprite) : base(sprite) 
         {
-            maxHitPoints = 20;
+            maxHitPoints = 50;
             hitPoints = maxHitPoints;
             enemySprite = sprite;
             rand = new Random();

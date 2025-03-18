@@ -22,7 +22,7 @@ namespace Blok3Game.content.Scripts.Enemies
 
         public Enemy(Texture2D sprite) : base() 
         {
-            maxHitPoints = 20;
+            maxHitPoints = 50;
             hitPoints = maxHitPoints;
             isAlive = true;
             enemySprite = sprite;
