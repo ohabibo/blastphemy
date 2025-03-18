@@ -89,5 +89,19 @@ namespace Blok3Game.content.Scripts.Managers
         public List<GameObject> GetChildren(){
             return children;
         }
+
+        public void SpawnEnemyBulletTop1(Vector2 enemyPos)
+        {
+            offset1.X = enemyPos.X;
+            offset1.Y = 1000;
+            EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+            offset1.X = enemyPos.X + 50;
+            enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+            offset1.X = enemyPos.X - 50;
+            enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+        }
     }
 }

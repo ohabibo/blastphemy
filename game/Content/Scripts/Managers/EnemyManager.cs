@@ -33,10 +33,16 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                if (rand.Next(0, 2) == 1) {
-                    SpawnEnemy();
-                } else {
-                    SpawnCrossEnemy();
+                for (int i = 0; i < rand.Next(1, 4); i++) {
+
+                    if (rand.Next(0, 3) == 1) {
+                        SpawnEnemy();
+                    } else if (rand.Next(0, 2) == 1){
+                        SpawnCrossEnemy();
+                    } else {
+                        SpawnNewEnemy();
+                    }
+                    
                 }
                 spawnTimer = 0;
             }
@@ -62,7 +68,17 @@ namespace Blok3Game.content.Scripts.Managers
                             crossEnemy.crossShot = true;
                         }
                     }
-                } else if (obj is Enemy enemy) {
+                } else if (obj is TopEnemy topEnemy) {
+                    if(topEnemy.GetHP() <= 0) 
+                    {
+                        Remove(obj);
+                    }
+
+                    if(shootTimer > shootInterval) 
+                    {
+                        enemyBulletManager.SpawnEnemyBulletTop1(topEnemy.Position);
+                    }
+                }else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
                     if(enemy.GetHP() <= 0) 
                     {
@@ -106,6 +122,12 @@ namespace Blok3Game.content.Scripts.Managers
         {
             CrossEnemy crossEnemy = new CrossEnemy(enemySprite);
             Add(crossEnemy);
+        }
+
+        private void SpawnNewEnemy()
+        {
+            TopEnemy topEnemy = new TopEnemy(enemySprite);
+            Add(topEnemy);
         }
     }
 }
