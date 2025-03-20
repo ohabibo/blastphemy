@@ -18,6 +18,10 @@ namespace Blok3Game.content.Scripts.Managers
         private float shootTimer;
         private float shootInterval = 2f;
 
+        private int maxEnemies = 15;
+
+        public int totalEnemies = 0;
+
         private Random rand = new Random();
 
         public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager) : base()
@@ -35,14 +39,18 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 for (int i = 0; i < rand.Next(1, 4); i++) {
 
-                    if (rand.Next(0, 3) == 1) {
-                        SpawnEnemy();
-                    } else if (rand.Next(0, 2) == 1){
-                        SpawnCrossEnemy();
-                    } else {
-                        SpawnNewEnemy();
+                    if (totalEnemies < maxEnemies) {
+                        
+                        if (rand.Next(0, 3) == 1) {
+                            SpawnEnemy();
+                        } else if (rand.Next(0, 2) == 1){
+                            SpawnCrossEnemy();
+                        } else {
+                            SpawnNewEnemy();
+                        }
+
+                        totalEnemies++;
                     }
-                    
                 }
                 spawnTimer = 0;
             }
@@ -53,11 +61,6 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 if (obj is CrossEnemy crossEnemy) {
                     crossEnemy.SetTargetPosition(player.Position);
-                    if(crossEnemy.GetHP() <= 0) 
-                    {
-                        Remove(obj);
-                    }
-
                     if(shootTimer > shootInterval) 
                     {
                         if (crossEnemy.crossShot) {
@@ -69,25 +72,23 @@ namespace Blok3Game.content.Scripts.Managers
                         }
                     }
                 } else if (obj is TopEnemy topEnemy) {
-                    if(topEnemy.GetHP() <= 0) 
-                    {
-                        Remove(obj);
-                    }
-
                     if(shootTimer > shootInterval) 
                     {
                         enemyBulletManager.SpawnEnemyBulletTop1(topEnemy.Position);
                     }
                 }else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
-                    if(enemy.GetHP() <= 0) 
-                    {
-                        Remove(obj);
-                    }
-
                     if(shootTimer > shootInterval) 
                     {
                         enemyBulletManager.SpawnAimedEnemyBullet1(enemy.Position);
+                    }
+                }
+
+                if (obj is Enemy enemy1) {
+                    if(enemy1.GetHP() <= 0) 
+                    {
+                        Remove(obj);
+                        totalEnemies--;
                     }
                 }
             }
@@ -100,6 +101,7 @@ namespace Blok3Game.content.Scripts.Managers
 
 
             base.Update(gameTime);
+            Console.WriteLine(totalEnemies);
         }
 
         private void SpawnEnemy()

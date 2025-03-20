@@ -14,13 +14,13 @@ namespace Blok3Game.content.Scripts.Enemies
         public bool crossShot = false;
         public TopEnemy(Texture2D sprite) : base(sprite) 
         {
-            maxHitPoints = 50;
+            //maxHitPoints = 50;
             hitPoints = maxHitPoints;
             enemySprite = sprite;
             rand = new Random();
             SpawnAboveScreen();
             targetPosition.X = position.X;
-            targetPosition.Y = rand.Next(30, 120);
+            targetPosition.Y = rand.Next(30, 80);
             speed = rand.Next(80, 120);
         }
 
@@ -33,8 +33,6 @@ namespace Blok3Game.content.Scripts.Enemies
         public new void SetTargetPosition(Vector2 playerPos)
         {
             /*
-            playerPos.X = position.X;
-            playerPos.Y = 50;
             targetPosition = playerPos;
             */
         }
@@ -50,6 +48,7 @@ namespace Blok3Game.content.Scripts.Enemies
             }
             else 
             {
+                //Kies random richting om in te bewegen
                 velocity = Vector2.Zero;
                 if (rand.Next(0, 2) == 1) {
                     targetPosition.X = 50;

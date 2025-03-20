@@ -15,14 +15,13 @@ namespace Blok3Game.content.Scripts.Enemies
         protected float speed = 100f;
         protected int hitPoints;
         private bool isAlive;
-        protected int maxHitPoints;
+        protected int maxHitPoints = 30;
         protected Texture2D enemySprite;
         protected Random rand;
 
 
         public Enemy(Texture2D sprite) : base() 
         {
-            maxHitPoints = 50;
             hitPoints = maxHitPoints;
             isAlive = true;
             enemySprite = sprite;
