@@ -2,9 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Blok3Game.Engine.GameObjects;
 using System;
 
-public class ShieldProgressBar
+public class ShieldProgressBar : GameObject
 {
     private Texture2D texture;
     private int maxShield;
@@ -18,6 +19,7 @@ public class ShieldProgressBar
     private float hitCountdownTimer = 0f;   // for countdown effect
     
     public ShieldProgressBar(Texture2D texture, Texture2D abilityTexture, int maxShield, SpriteFont font)
+        : base(0, "ShieldProgressBar")
     {
         this.texture = texture;
         this.maxShield = maxShield;
@@ -67,7 +69,7 @@ public class ShieldProgressBar
         this.abilityMeter.SetAbilityReady(ready);
     }
 
-    public void Reset()
+    public override void Reset()
     {
         currentShield = maxShield;  // Full shield (should be 100)
         gameOver = false;
@@ -79,16 +81,18 @@ public class ShieldProgressBar
     // (RestartGame method removed from UI; game over handling is moved elsewhere.)
 
     // Update timers for the hit effects. Call this from your game update loop.
-    public void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (hitEffectTimer > 0)
             hitEffectTimer -= delta;
         if (hitCountdownTimer > 0)
             hitCountdownTimer -= delta;
+        // Optionally update nested objects
+        // abilityMeter.Update(gameTime);
     }
 
-    public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+    public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
         float shieldPercentage = (float)currentShield / maxShield;
         Color shieldColor;
@@ -106,7 +110,7 @@ public class ShieldProgressBar
         }
 
         int radius = texture.Width / 4;
-        Vector2 position = new Vector2(radius, graphicsDevice.Viewport.Height - radius);
+        Vector2 position = new Vector2(radius, spriteBatch.GraphicsDevice.Viewport.Height - radius);
 
         // Draw shield texture
         Rectangle sourceRectangle = new Rectangle(0, texture.Height / 2, texture.Width, texture.Height / 2);

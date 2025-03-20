@@ -90,7 +90,7 @@ namespace BaseProject
                 // Use the shieldProgressBar from the current game state.
                 if (GameEnvironment.GameStateManager.CurrentGameState is GameState currentState && currentState.shieldProgressBar != null)
                 {
-                    currentState.shieldProgressBar.Draw(spriteBatch, GraphicsDevice);
+                    currentState.shieldProgressBar.Draw(gameTime, spriteBatch);
                 }
 
                 spriteBatch.End();
