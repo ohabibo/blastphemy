@@ -24,6 +24,8 @@ namespace Blok3Game.content.Scripts.Managers
 
         private Random rand = new Random();
 
+        private int chooseEnemy;
+
         public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager) : base()
         {
             enemySprite = enemyTexture;
@@ -37,17 +39,16 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                for (int i = 0; i < rand.Next(1, 4); i++) {
+                for (int i = 0; i < rand.Next(2, 5); i++) {
 
                     if (totalEnemies < maxEnemies) {
-                        
-                        if (rand.Next(0, 3) == 1) {
-                            SpawnEnemy();
-                        } else if (rand.Next(0, 2) == 1){
-                            SpawnCrossEnemy();
-                        } else {
-                            SpawnNewEnemy();
-                        }
+
+                        chooseEnemy = rand.Next(0, 4);
+
+                        if (chooseEnemy == 0) {             SpawnEnemy();               }
+                        if (chooseEnemy == 1) {             SpawnCrossEnemy();          }
+                        if (chooseEnemy == 2) {             SpawnTopEnemy();            }
+                        if (chooseEnemy == 3) {             SpawnBombEnemy();           }
 
                         totalEnemies++;
                     }
@@ -76,6 +77,11 @@ namespace Blok3Game.content.Scripts.Managers
                     {
                         enemyBulletManager.SpawnEnemyBulletTop1(topEnemy.Position);
                     }
+                }else if (obj is BombEnemy bombEnemy) {
+                    bombEnemy.SetTargetPosition(player.Position);
+                    if(bombEnemy.GetHP() <= 0) {
+                        enemyBulletManager.SpawnEnemyBulletBomb1(bombEnemy.Position);
+                    } 
                 }else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
                     if(shootTimer > shootInterval) 
@@ -126,10 +132,16 @@ namespace Blok3Game.content.Scripts.Managers
             Add(crossEnemy);
         }
 
-        private void SpawnNewEnemy()
+        private void SpawnTopEnemy()
         {
             TopEnemy topEnemy = new TopEnemy(enemySprite);
             Add(topEnemy);
+        }
+
+        private void SpawnBombEnemy()
+        {
+            BombEnemy bombEnemy = new BombEnemy(enemySprite);
+            Add(bombEnemy);
         }
     }
 }
