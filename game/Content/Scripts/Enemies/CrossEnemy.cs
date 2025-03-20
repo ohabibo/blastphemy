@@ -42,7 +42,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public override void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;
-            if(Vector2.Distance(position, targetPosition) >= 500)
+            if(Vector2.Distance(position, targetPosition) >= 400)
             {
                 direction.Normalize();
                 velocity = direction * speed;
