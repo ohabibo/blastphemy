@@ -138,7 +138,7 @@ public class ShieldProgressBar : GameObject
             string countdownText = $"{Math.Ceiling(hitCountdownTimer)}";
             Vector2 countSize = font.MeasureString(countdownText);
             Vector2 countPosition = new Vector2(position.X - countSize.X / 2, position.Y - radius - countSize.Y - 10);
-            spriteBatch.DrawString(font, countdownText, countPosition, Color.Yellow);
+            //spriteBatch.DrawString(font, countdownText, countPosition, Color.Yellow);
         }
     }
 }
