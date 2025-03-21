@@ -89,5 +89,52 @@ namespace Blok3Game.content.Scripts.Managers
         public List<GameObject> GetChildren(){
             return children;
         }
+
+        public void SpawnEnemyBulletTop1(Vector2 enemyPos)
+        {
+            offset1.X = enemyPos.X;
+            offset1.Y = 1000;
+            EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+            offset1.X = enemyPos.X + 50;
+            enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+            offset1.X = enemyPos.X - 50;
+            enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+        }
+
+        public void SpawnEnemyBulletBomb1(Vector2 enemyPos)
+        {
+            offset1.X = enemyPos.X;
+            offset1.Y = enemyPos.Y + 2;
+            EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+            Add(enemyBullet);
+            for (int i = 0; i < 2; i++) {
+                offset1.X++;
+                enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+                Add(enemyBullet);
+            }
+            for (int i = 0; i < 4; i++) {
+                offset1.Y--;
+                enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+                Add(enemyBullet);
+            }
+            for (int i = 0; i < 4; i++) {
+                offset1.X--;
+                enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+                Add(enemyBullet);
+            }
+            for (int i = 0; i < 4; i++) {
+                offset1.Y++;
+                enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+                Add(enemyBullet);
+            }
+            for (int i = 0; i < 2; i++) {
+                offset1.X++;
+                enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
+                Add(enemyBullet);
+            }
+        }
     }
 }

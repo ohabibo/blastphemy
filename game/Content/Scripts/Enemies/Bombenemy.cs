@@ -9,13 +9,16 @@ using Blok3Game.content.Scripts;
 
 namespace Blok3Game.content.Scripts.Enemies
 {
-    public class CrossEnemy : Enemy
+    public class BombEnemy : Enemy
     {
         public bool crossShot = false;
-        public CrossEnemy(Texture2D sprite) : base(sprite) 
+
+        private float explodeDistance = 100f;
+        public BombEnemy(Texture2D sprite) : base(sprite) 
         {
             hitPoints = maxHitPoints;
             enemySprite = sprite;
+            speed = 40f;
             rand = new Random();
             SpawnOutOfScreen();
         }
@@ -37,15 +40,13 @@ namespace Blok3Game.content.Scripts.Enemies
         public override void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;
-            if(Vector2.Distance(position, targetPosition) >= 400)
-            {
-                direction.Normalize();
-                velocity = direction * speed;
+            direction.Normalize();
+            velocity = direction * speed;
+            
+            if (Vector2.Distance(position, targetPosition) <= explodeDistance) {
+                hitPoints = 0;
             }
-            else 
-            {
-                velocity = Vector2.Zero;
-            }
+
         }
 
 

@@ -15,25 +15,27 @@ namespace Blok3Game.content.Scripts.Enemies
         protected float speed = 100f;
         protected int hitPoints;
         private bool isAlive;
-        protected int maxHitPoints;
+        protected int maxHitPoints = 30;
         protected Texture2D enemySprite;
         protected Random rand;
 
 
         public Enemy(Texture2D sprite) : base()
         {
-            maxHitPoints = 20;
             hitPoints = maxHitPoints;
             isAlive = true;
             enemySprite = sprite;
             rand = new Random();
-            SpawnAboveScreen();
+            SpawnOutOfScreen();
         }
 
-        private void SpawnAboveScreen()
+        private void SpawnOutOfScreen() 
         {
             int screenWidth = 1920;
-            position = new Vector2(rand.Next(50, screenWidth - 50), -50);
+            int screenHeight = 1080;
+            if (rand.Next(0, 2) == 1) {         position = new Vector2(rand.Next(50, screenWidth - 50), - 50);                      }        
+            else if (rand.Next(0, 2) == 1) {    position = new Vector2(-50, rand.Next(50, screenHeight - 50));                      } 
+            else {                              position = new Vector2(screenWidth + 50, rand.Next(50, screenHeight - 50));         }
         }
 
         public void SetTargetPosition(Vector2 playerPos)
