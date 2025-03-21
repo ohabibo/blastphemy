@@ -16,7 +16,6 @@ namespace Blok3Game.content.Scripts.Enemies
         private float explodeDistance = 100f;
         public BombEnemy(Texture2D sprite) : base(sprite) 
         {
-            //maxHitPoints = 50;
             hitPoints = maxHitPoints;
             enemySprite = sprite;
             speed = 40f;
@@ -28,13 +27,9 @@ namespace Blok3Game.content.Scripts.Enemies
         {
             int screenWidth = 1920;
             int screenHeight = 1080;
-            if (rand.Next(0, 2) == 1) {
-                position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
-            } else if (rand.Next(0, 2) == 1) {
-                position = new Vector2(-50, rand.Next(50, screenHeight - 50));
-            } else {
-                position = new Vector2(screenWidth + 50, rand.Next(50, screenHeight - 50));
-            }
+            if (rand.Next(0, 2) == 1) {         position = new Vector2(rand.Next(50, screenWidth - 50), - 50);                      }        
+            else if (rand.Next(0, 2) == 1) {    position = new Vector2(-50, rand.Next(50, screenHeight - 50));                      } 
+            else {                              position = new Vector2(screenWidth + 50, rand.Next(50, screenHeight - 50));         }
         }
 
         public new void SetTargetPosition(Vector2 playerPos)

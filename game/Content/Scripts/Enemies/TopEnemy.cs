@@ -14,7 +14,6 @@ namespace Blok3Game.content.Scripts.Enemies
         public bool crossShot = false;
         public TopEnemy(Texture2D sprite) : base(sprite) 
         {
-            //maxHitPoints = 50;
             hitPoints = maxHitPoints;
             enemySprite = sprite;
             rand = new Random();
@@ -30,13 +29,6 @@ namespace Blok3Game.content.Scripts.Enemies
             position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
         }
 
-        public new void SetTargetPosition(Vector2 playerPos)
-        {
-            /*
-            targetPosition = playerPos;
-            */
-        }
-
         public override void UpdateMovement(GameTime gameTime)
         {
             int screenWidth = 1520;
@@ -50,11 +42,8 @@ namespace Blok3Game.content.Scripts.Enemies
             {
                 //Kies random richting om in te bewegen
                 velocity = Vector2.Zero;
-                if (rand.Next(0, 2) == 1) {
-                    targetPosition.X = 50;
-                } else {
-                    targetPosition.X = screenWidth - 50;
-                }
+                if (rand.Next(0, 2) == 1) {         targetPosition.X = 50;                      } 
+                else {                              targetPosition.X = screenWidth - 50;        }
             }
         }
 

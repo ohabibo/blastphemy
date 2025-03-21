@@ -16,15 +16,11 @@ namespace Blok3Game.content.Scripts.Managers
         public EnemyBulletManager enemyBulletManager;
 
         private float shootTimer;
-        private float shootInterval = 2f;
-
-        private int maxEnemies = 15;
+        private float shootInterval = 4f;
 
         public int totalEnemies = 0;
 
         private Random rand = new Random();
-
-        private int chooseEnemy;
 
         public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager) : base()
         {
@@ -60,21 +56,13 @@ namespace Blok3Game.content.Scripts.Managers
                         }
                     }
                 } else if (obj is TopEnemy topEnemy) {
-                    if(shootTimer > shootInterval) 
-                    {
-                        enemyBulletManager.SpawnEnemyBulletTop1(topEnemy.Position);
-                    }
+                    if(shootTimer > shootInterval) {            enemyBulletManager.SpawnEnemyBulletTop1(topEnemy.Position);             }
                 }else if (obj is BombEnemy bombEnemy) {
                     bombEnemy.SetTargetPosition(player.Position);
-                    if(bombEnemy.GetHP() <= 0) {
-                        enemyBulletManager.SpawnEnemyBulletBomb1(bombEnemy.Position);
-                    } 
+                    if(bombEnemy.GetHP() <= 0) {                enemyBulletManager.SpawnEnemyBulletBomb1(bombEnemy.Position);           } 
                 }else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
-                    if(shootTimer > shootInterval) 
-                    {
-                        enemyBulletManager.SpawnAimedEnemyBullet1(enemy.Position);
-                    }
+                    if(shootTimer > shootInterval) {            enemyBulletManager.SpawnAimedEnemyBullet1(enemy.Position);              }
                 }
 
                 if (obj is Enemy enemy1) {
@@ -86,12 +74,7 @@ namespace Blok3Game.content.Scripts.Managers
                 }
             }
 
-            if(shootTimer > shootInterval) 
-            {
-                shootTimer = 0;
-            }
-            //Console.WriteLine(shootTimer);
-
+            if(shootTimer > shootInterval) {        shootTimer = 0;         }
 
             base.Update(gameTime);
             Console.WriteLine(totalEnemies);
@@ -102,16 +85,11 @@ namespace Blok3Game.content.Scripts.Managers
             Enemy enemy = new Enemy(enemySprite);
             Add(enemy);
         }
-        public List<GameObject> GetChildren(){
-            return children;
-        }
+        public List<GameObject> GetChildren() {          return children;        }
 
         public void DamageAllChildren(int damage)
         {
-            foreach (Enemy enemy in children)
-            {
-                enemy.Damage(damage);
-            }
+            foreach (Enemy enemy in children) {         enemy.Damage(damage);       }
         }
         private void SpawnCrossEnemy()
         {
@@ -132,18 +110,10 @@ namespace Blok3Game.content.Scripts.Managers
         }
 
         public void SpawnWave(int enemies, int crossEnemies, int topEnemies, int bombEnemies) {
-            for (int i = 0; i < enemies; i++) { 
-                SpawnEnemy();
-            }
-            for (int i = 0; i < crossEnemies; i++) { 
-                SpawnCrossEnemy();
-            }
-            for (int i = 0; i < topEnemies; i++) { 
-                SpawnTopEnemy();
-            }
-            for (int i = 0; i < bombEnemies; i++) { 
-                SpawnBombEnemy();
-            }
+            for (int i = 0; i < enemies; i++) {             SpawnEnemy();               }
+            for (int i = 0; i < crossEnemies; i++) {        SpawnCrossEnemy();          }
+            for (int i = 0; i < topEnemies; i++) {          SpawnTopEnemy();            }
+            for (int i = 0; i < bombEnemies; i++) {         SpawnBombEnemy();           }
         }
     }
 }

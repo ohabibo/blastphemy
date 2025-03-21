@@ -33,13 +33,9 @@ namespace Blok3Game.content.Scripts.Enemies
         {
             int screenWidth = 1920;
             int screenHeight = 1080;
-            if (rand.Next(0, 2) == 1) {
-                position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
-            } else if (rand.Next(0, 2) == 1) {
-                position = new Vector2(-100, rand.Next(50, screenHeight - 50));
-            } else {
-                position = new Vector2(screenWidth + 50, rand.Next(50, screenHeight - 50));
-            }
+            if (rand.Next(0, 2) == 1) {         position = new Vector2(rand.Next(50, screenWidth - 50), - 50);                      }        
+            else if (rand.Next(0, 2) == 1) {    position = new Vector2(-50, rand.Next(50, screenHeight - 50));                      } 
+            else {                              position = new Vector2(screenWidth + 50, rand.Next(50, screenHeight - 50));         }
         }
 
         public void SetTargetPosition(Vector2 playerPos)
