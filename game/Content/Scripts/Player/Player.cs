@@ -33,7 +33,7 @@ namespace Blok3Game.content.Scripts
         private Vector2 aimDirection;
         public Player(Texture2D playerSprite, GameState _gameState) : base()
         {
-            aimDirection = Vector2.Zero;
+            aimDirection = new Vector2(0,1);
             bullets = new List<PlayerAttack>();
             gameState = _gameState;
             blasphemyAbility = new Blasphemy(_gameState);
