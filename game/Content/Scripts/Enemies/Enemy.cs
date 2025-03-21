@@ -20,7 +20,7 @@ namespace Blok3Game.content.Scripts.Enemies
         protected Random rand;
 
 
-        public Enemy(Texture2D sprite) : base() 
+        public Enemy(Texture2D sprite) : base()
         {
             maxHitPoints = 20;
             hitPoints = maxHitPoints;
@@ -30,10 +30,10 @@ namespace Blok3Game.content.Scripts.Enemies
             SpawnAboveScreen();
         }
 
-        private void SpawnAboveScreen() 
+        private void SpawnAboveScreen()
         {
             int screenWidth = 1920;
-            position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
+            position = new Vector2(rand.Next(50, screenWidth - 50), -50);
         }
 
         public void SetTargetPosition(Vector2 playerPos)
@@ -44,7 +44,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public virtual void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;
-            if(direction != Vector2.Zero)
+            if (direction != Vector2.Zero)
             {
                 direction.Normalize();
                 velocity = direction * speed;
@@ -54,7 +54,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public override void Update(GameTime gameTime)
         {
             UpdateMovement(gameTime);
-            if(!isAlive)
+            if (!isAlive)
             {
                 visible = false;
             }
@@ -69,14 +69,15 @@ namespace Blok3Game.content.Scripts.Enemies
             }
         }
 
-        public override Rectangle BoundingBox 
+        public override Rectangle BoundingBox
         {
             get
             {
                 if (enemySprite != null)
                 {
-                    return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y, 
-                            enemySprite.Width, enemySprite.Height); }
+                    return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y,
+                            enemySprite.Width, enemySprite.Height);
+                }
                 return base.BoundingBox;
             }
         }
@@ -120,5 +121,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public int GetHP() { return hitPoints; }
 
         public bool IsAlive() { return isAlive; }
+
+        public Texture2D GetTexture() { return enemySprite; }
     }
 }

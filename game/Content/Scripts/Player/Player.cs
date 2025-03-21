@@ -30,8 +30,10 @@ namespace Blok3Game.content.Scripts
         private float attackCooldown;
         private int baseAttackDamage;
         private int abilityAttackDamage;
+        private Vector2 aimDirection;
         public Player(Texture2D playerSprite, GameState _gameState) : base()
         {
+            aimDirection = Vector2.Zero;
             bullets = new List<PlayerAttack>();
             gameState = _gameState;
             blasphemyAbility = new Blasphemy(_gameState);
@@ -55,23 +57,23 @@ namespace Blok3Game.content.Scripts
             velocity = Vector2.Zero;
             if (inputHelper.IsKeyDown(Keys.Space))
             {
-                if (attackCooldownCounter <= 0) 
-                { 
-                    DoBaseAttack(); 
-                    attackCooldownCounter = attackCooldown; 
+                if (attackCooldownCounter <= 0)
+                {
+                    DoBaseAttack();
+                    attackCooldownCounter = attackCooldown;
                 }
             }
-            if (inputHelper.IsKeyDown(Keys.F)) {DoBlasphemy();}
-            
-            if (inputHelper.IsKeyDown(Keys.A)) {velocity.X = -1;}
+            if (inputHelper.IsKeyDown(Keys.F)) { DoBlasphemy(); }
 
-            if (inputHelper.IsKeyDown(Keys.D)) {velocity.X = 1;}
+            if (inputHelper.IsKeyDown(Keys.A)) { velocity.X = -1; }
 
-            if (inputHelper.IsKeyDown(Keys.W)) {velocity.Y = -1;}
+            if (inputHelper.IsKeyDown(Keys.D)) { velocity.X = 1; }
 
-            if (inputHelper.IsKeyDown(Keys.S)) {velocity.Y = 1;}
+            if (inputHelper.IsKeyDown(Keys.W)) { velocity.Y = -1; }
 
-            if (!(velocity.X == 0 && velocity.Y == 0)) {velocity = Vector2.Normalize(velocity) * maxVelocity;}
+            if (inputHelper.IsKeyDown(Keys.S)) { velocity.Y = 1; }
+
+            if (!(velocity.X == 0 && velocity.Y == 0)) { velocity = Vector2.Normalize(velocity) * maxVelocity; }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -111,9 +113,9 @@ namespace Blok3Game.content.Scripts
                 }
             }
 
-            foreach(GameObject obj in gameState.enemyBulletManager.GetChildren()) 
+            foreach (GameObject obj in gameState.enemyBulletManager.GetChildren())
             {
-                if(obj is EnemyBullet enemyBullet && enemyBullet.Visible)
+                if (obj is EnemyBullet enemyBullet && enemyBullet.Visible)
                 {
                     if (enemyBullet.CheckCollision(this.BoundingBox))
                     {
@@ -155,8 +157,8 @@ namespace Blok3Game.content.Scripts
             if (heal > 0)
             {
                 int newHP = hitPoints + heal;
-                if (overHeal) {hitPoints = newHP;}
-                
+                if (overHeal) { hitPoints = newHP; }
+
                 else { if (newHP >= maxHitPoints) { hitPoints = maxHitPoints; } else { hitPoints = newHP; } }
             }
             else { Console.WriteLine("Player.Heal failed please input a positive value"); }
@@ -172,30 +174,37 @@ namespace Blok3Game.content.Scripts
         }
         private void DoBaseAttack()
         {
-            Vector2 closestEnemy = Vector2.Zero; // Why? Why not just use null?
-            Vector2 playerPosition = this.Position;
-            playerPosition.X += 32;
-            playerPosition.Y += 32; 
+            Vector2 closestEnemy = Vector2.Zero; // Why? Why not just use null? Because the if statement cant check it if its null.
+            Vector2 playerCenterPosition = this.Position;
+            playerCenterPosition.X += sprite.Width / 2;
+            playerCenterPosition.Y += sprite.Height / 2;
+            Vector2 bulletStartPosition = playerCenterPosition;
+            bulletStartPosition.X -= gameState.playerBulletTexture.Width / 2;
+            bulletStartPosition.Y -= gameState.playerBulletTexture.Height / 2;
+            Vector2 enemyOffset = new Vector2();
             List<GameObject> Enemies = gameState.enemyManager.GetChildren();
-            foreach (GameObject obj in Enemies)
+            foreach (Enemy obj in Enemies)
             {
-                if (!obj.Visible) continue; 
-                
-                if (closestEnemy == Vector2.Zero)
-                {
-                    closestEnemy = obj.Position;
-                } // Make this a one line if statement; it's easier to read
+                if (!obj.Visible) continue;
+
+                if (closestEnemy == Vector2.Zero) { closestEnemy = obj.Position; }
                 else
                 {
-                    float closestEnemyDistance = Vector2.Distance(closestEnemy, playerPosition);
-                    float objEnemyDistance =  Vector2.Distance(obj.Position, playerPosition);
-                    if (closestEnemyDistance > objEnemyDistance) 
-                        closestEnemy = obj.Position;
+                    float closestEnemyDistance = Vector2.Distance(closestEnemy, playerCenterPosition);
+                    float objEnemyDistance = Vector2.Distance(obj.Position, playerCenterPosition);
+                    if (closestEnemyDistance > objEnemyDistance)
+                    closestEnemy = obj.Position;
+                    enemyOffset.X = obj.GetTexture().Width / 2;
+                    enemyOffset.Y = obj.GetTexture().Height / 2;
                 }
             }
+            if(closestEnemy == Vector2.Zero) {} else aimDirection = Vector2.Normalize(closestEnemy + enemyOffset - bulletStartPosition);
             bullets.Add(
                 new PlayerAttack(
-                    Vector2.Normalize(closestEnemy - playerPosition) * bulletspeed, gameState.playerBulletTexture, playerPosition, baseAttackDamage
+                    aimDirection * bulletspeed,
+                    gameState.playerBulletTexture,
+                    bulletStartPosition,
+                    baseAttackDamage
                     )
                 );
         }
@@ -208,7 +217,7 @@ namespace Blok3Game.content.Scripts
             }
         }
         private void DoBlasphemy()
-        {                
+        {
             blasphemyAbility.trigger(abilityAttackDamage);  // TODO: REMOVE WHEN POSSIBLE 
             if (blasphemyCharge == 100)
             {
@@ -219,7 +228,7 @@ namespace Blok3Game.content.Scripts
 
         public override Rectangle BoundingBox
         {
-            get {return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height); }
+            get { return new Rectangle((int)position.X, (int)position.Y, sprite.Width, sprite.Height); }
         }
     }
 }
