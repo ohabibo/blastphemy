@@ -39,20 +39,7 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                for (int i = 0; i < rand.Next(2, 5); i++) {
-
-                    if (totalEnemies < maxEnemies) {
-
-                        chooseEnemy = rand.Next(0, 4);
-
-                        if (chooseEnemy == 0) {             SpawnEnemy();               }
-                        if (chooseEnemy == 1) {             SpawnCrossEnemy();          }
-                        if (chooseEnemy == 2) {             SpawnTopEnemy();            }
-                        if (chooseEnemy == 3) {             SpawnBombEnemy();           }
-
-                        totalEnemies++;
-                    }
-                }
+                SpawnWave(1, 2, 1, 1);
                 spawnTimer = 0;
             }
 
@@ -142,6 +129,21 @@ namespace Blok3Game.content.Scripts.Managers
         {
             BombEnemy bombEnemy = new BombEnemy(enemySprite);
             Add(bombEnemy);
+        }
+
+        public void SpawnWave(int enemies, int crossEnemies, int topEnemies, int bombEnemies) {
+            for (int i = 0; i < enemies; i++) { 
+                SpawnEnemy();
+            }
+            for (int i = 0; i < crossEnemies; i++) { 
+                SpawnCrossEnemy();
+            }
+            for (int i = 0; i < topEnemies; i++) { 
+                SpawnTopEnemy();
+            }
+            for (int i = 0; i < bombEnemies; i++) { 
+                SpawnBombEnemy();
+            }
         }
     }
 }
