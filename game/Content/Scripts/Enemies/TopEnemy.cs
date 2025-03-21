@@ -9,42 +9,41 @@ using Blok3Game.content.Scripts;
 
 namespace Blok3Game.content.Scripts.Enemies
 {
-    public class CrossEnemy : Enemy
+    public class TopEnemy : Enemy
     {
         public bool crossShot = false;
-        public CrossEnemy(Texture2D sprite) : base(sprite) 
+        public TopEnemy(Texture2D sprite) : base(sprite) 
         {
             hitPoints = maxHitPoints;
             enemySprite = sprite;
             rand = new Random();
-            SpawnOutOfScreen();
+            SpawnAboveScreen();
+            targetPosition.X = position.X;
+            targetPosition.Y = rand.Next(30, 80);
+            speed = rand.Next(80, 120);
         }
 
-        private void SpawnOutOfScreen() 
+        private void SpawnAboveScreen() 
         {
-            int screenWidth = 1920;
-            int screenHeight = 1080;
-            if (rand.Next(0, 2) == 1) {         position = new Vector2(rand.Next(50, screenWidth - 50), - 50);                      }        
-            else if (rand.Next(0, 2) == 1) {    position = new Vector2(-50, rand.Next(50, screenHeight - 50));                      } 
-            else {                              position = new Vector2(screenWidth + 50, rand.Next(50, screenHeight - 50));         }
-        }
-
-        public new void SetTargetPosition(Vector2 playerPos)
-        {
-            targetPosition = playerPos;
+            int screenWidth = 1520;
+            position = new Vector2(rand.Next(50, screenWidth - 50), - 50);
         }
 
         public override void UpdateMovement(GameTime gameTime)
         {
+            int screenWidth = 1520;
             Vector2 direction = targetPosition - position;
-            if(Vector2.Distance(position, targetPosition) >= 400)
+            if(Vector2.Distance(position, targetPosition) >= 10)
             {
                 direction.Normalize();
                 velocity = direction * speed;
             }
             else 
             {
+                //Kies random richting om in te bewegen
                 velocity = Vector2.Zero;
+                if (rand.Next(0, 2) == 1) {         targetPosition.X = 50;                      } 
+                else {                              targetPosition.X = screenWidth - 50;        }
             }
         }
 

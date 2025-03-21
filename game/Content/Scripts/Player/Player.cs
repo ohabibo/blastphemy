@@ -39,10 +39,10 @@ namespace Blok3Game.content.Scripts
             maxHitPoints = 100;
             hitPoints = maxHitPoints;
             isAlive = true;
-            maxVelocity = 200;
-            bulletspeed = 300;
+            maxVelocity = 300;
+            bulletspeed = 800;
             attackCooldownCounter = 0f;
-            attackCooldown = 250f;
+            attackCooldown = 150f;
             blasphemyCharge = 0f;
             baseAttackDamage = 10;
             abilityAttackDamage = 50;

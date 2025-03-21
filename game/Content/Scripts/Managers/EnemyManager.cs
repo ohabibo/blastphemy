@@ -16,7 +16,9 @@ namespace Blok3Game.content.Scripts.Managers
         public EnemyBulletManager enemyBulletManager;
 
         private float shootTimer;
-        private float shootInterval = 2f;
+        private float shootInterval = 4f;
+
+        public int totalEnemies = 0;
 
         private Random rand = new Random();
 
@@ -33,11 +35,7 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                if (rand.Next(0, 2) == 1) {
-                    SpawnEnemy();
-                } else {
-                    SpawnCrossEnemy();
-                }
+                SpawnWave(1, 2, 1, 1);
                 spawnTimer = 0;
             }
 
@@ -47,11 +45,6 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 if (obj is CrossEnemy crossEnemy) {
                     crossEnemy.SetTargetPosition(player.Position);
-                    if(crossEnemy.GetHP() <= 0) 
-                    {
-                        Remove(obj);
-                    }
-
                     if(shootTimer > shootInterval) 
                     {
                         if (crossEnemy.crossShot) {
@@ -62,28 +55,29 @@ namespace Blok3Game.content.Scripts.Managers
                             crossEnemy.crossShot = true;
                         }
                     }
-                } else if (obj is Enemy enemy) {
+                } else if (obj is TopEnemy topEnemy) {
+                    if(shootTimer > shootInterval) {            enemyBulletManager.SpawnEnemyBulletTop1(topEnemy.Position);             }
+                }else if (obj is BombEnemy bombEnemy) {
+                    bombEnemy.SetTargetPosition(player.Position);
+                    if(bombEnemy.GetHP() <= 0) {                enemyBulletManager.SpawnEnemyBulletBomb1(bombEnemy.Position);           } 
+                }else if (obj is Enemy enemy) {
                     enemy.SetTargetPosition(player.Position);
-                    if(enemy.GetHP() <= 0) 
+                    if(shootTimer > shootInterval) {            enemyBulletManager.SpawnAimedEnemyBullet1(enemy.Position);              }
+                }
+
+                if (obj is Enemy enemy1) {
+                    if(enemy1.GetHP() <= 0) 
                     {
                         Remove(obj);
-                    }
-
-                    if(shootTimer > shootInterval) 
-                    {
-                        enemyBulletManager.SpawnAimedEnemyBullet1(enemy.Position);
+                        totalEnemies--;
                     }
                 }
             }
 
-            if(shootTimer > shootInterval) 
-            {
-                shootTimer = 0;
-            }
-            //Console.WriteLine(shootTimer);
-
+            if(shootTimer > shootInterval) {        shootTimer = 0;         }
 
             base.Update(gameTime);
+            Console.WriteLine(totalEnemies);
         }
 
         private void SpawnEnemy()
@@ -91,21 +85,35 @@ namespace Blok3Game.content.Scripts.Managers
             Enemy enemy = new Enemy(enemySprite);
             Add(enemy);
         }
-        public List<GameObject> GetChildren(){
-            return children;
-        }
+        public List<GameObject> GetChildren() {          return children;        }
 
         public void DamageAllChildren(int damage)
         {
-            foreach (Enemy enemy in children)
-            {
-                enemy.Damage(damage);
-            }
+            foreach (Enemy enemy in children) {         enemy.Damage(damage);       }
         }
         private void SpawnCrossEnemy()
         {
             CrossEnemy crossEnemy = new CrossEnemy(enemySprite);
             Add(crossEnemy);
+        }
+
+        private void SpawnTopEnemy()
+        {
+            TopEnemy topEnemy = new TopEnemy(enemySprite);
+            Add(topEnemy);
+        }
+
+        private void SpawnBombEnemy()
+        {
+            BombEnemy bombEnemy = new BombEnemy(enemySprite);
+            Add(bombEnemy);
+        }
+
+        public void SpawnWave(int enemies, int crossEnemies, int topEnemies, int bombEnemies) {
+            for (int i = 0; i < enemies; i++) {             SpawnEnemy();               }
+            for (int i = 0; i < crossEnemies; i++) {        SpawnCrossEnemy();          }
+            for (int i = 0; i < topEnemies; i++) {          SpawnTopEnemy();            }
+            for (int i = 0; i < bombEnemies; i++) {         SpawnBombEnemy();           }
         }
     }
 }
