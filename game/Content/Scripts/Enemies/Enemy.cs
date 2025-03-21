@@ -20,7 +20,7 @@ namespace Blok3Game.content.Scripts.Enemies
         protected Random rand;
 
 
-        public Enemy(Texture2D sprite) : base() 
+        public Enemy(Texture2D sprite) : base()
         {
             hitPoints = maxHitPoints;
             isAlive = true;
@@ -46,7 +46,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public virtual void UpdateMovement(GameTime gameTime)
         {
             Vector2 direction = targetPosition - position;
-            if(direction != Vector2.Zero)
+            if (direction != Vector2.Zero)
             {
                 direction.Normalize();
                 velocity = direction * speed;
@@ -56,7 +56,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public override void Update(GameTime gameTime)
         {
             UpdateMovement(gameTime);
-            if(!isAlive)
+            if (!isAlive)
             {
                 visible = false;
             }
@@ -71,14 +71,15 @@ namespace Blok3Game.content.Scripts.Enemies
             }
         }
 
-        public override Rectangle BoundingBox 
+        public override Rectangle BoundingBox
         {
             get
             {
                 if (enemySprite != null)
                 {
-                    return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y, 
-                            enemySprite.Width, enemySprite.Height); }
+                    return new Rectangle((int)GlobalPosition.X, (int)GlobalPosition.Y,
+                            enemySprite.Width, enemySprite.Height);
+                }
                 return base.BoundingBox;
             }
         }
@@ -122,5 +123,7 @@ namespace Blok3Game.content.Scripts.Enemies
         public int GetHP() { return hitPoints; }
 
         public bool IsAlive() { return isAlive; }
+
+        public Texture2D GetTexture() { return enemySprite; }
     }
 }
