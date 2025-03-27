@@ -95,7 +95,7 @@ namespace Blok3Game.GameStates
             enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
             Add(enemyBulletManager);
             
-            enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager); // Pass the mock player
+            enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager, tempPlayer); // Pass the mock player
             Add(enemyManager);
 
             // Optionally load the shield font here

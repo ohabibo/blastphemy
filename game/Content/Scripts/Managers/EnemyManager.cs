@@ -14,19 +14,23 @@ namespace Blok3Game.content.Scripts.Managers
         private float spawnTimer;
         private float spawnInterval = 2f;
         public EnemyBulletManager enemyBulletManager;
+        public Player player1;
 
         private float shootTimer;
         private float shootInterval = 4f;
+
+        private float blastphemyIncrease = 8.25f;
 
         public int totalEnemies = 0;
 
         private Random rand = new Random();
 
-        public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager) : base()
+        public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager, Player player2) : base()
         {
             enemySprite = enemyTexture;
             player = playerObject;
             enemyBulletManager = bulletManager;
+            player1 = player2;
         }
 
         public override void Update(GameTime gameTime)
@@ -70,6 +74,7 @@ namespace Blok3Game.content.Scripts.Managers
                     {
                         Remove(obj);
                         totalEnemies--;
+                        player1.AddToBlasphemy(blastphemyIncrease);
                     }
                 }
             }
@@ -77,7 +82,7 @@ namespace Blok3Game.content.Scripts.Managers
             if(shootTimer > shootInterval) {        shootTimer = 0;         }
 
             base.Update(gameTime);
-            Console.WriteLine(totalEnemies);
+            //Console.WriteLine(totalEnemies);
         }
 
         private void SpawnEnemy()
@@ -114,6 +119,7 @@ namespace Blok3Game.content.Scripts.Managers
             for (int i = 0; i < crossEnemies; i++) {        SpawnCrossEnemy();          }
             for (int i = 0; i < topEnemies; i++) {          SpawnTopEnemy();            }
             for (int i = 0; i < bombEnemies; i++) {         SpawnBombEnemy();           }
+            totalEnemies += enemies + crossEnemies + topEnemies+ bombEnemies;
         }
     }
 }

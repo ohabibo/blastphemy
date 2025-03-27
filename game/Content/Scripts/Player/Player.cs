@@ -21,7 +21,7 @@ namespace Blok3Game.content.Scripts
         private bool isAlive;
         private int maxHitPoints;
         private int maxVelocity;
-        private float blasphemyCharge;
+        public float blasphemyCharge;
         private GameState gameState;
         private List<PlayerAttack> bullets;
         private Blasphemy blasphemyAbility;
@@ -208,6 +208,7 @@ namespace Blok3Game.content.Scripts
                     )
                 );
         }
+
         public void AddToBlasphemy(float increment)
         {
             float newValue = blasphemyCharge + increment;
@@ -218,12 +219,13 @@ namespace Blok3Game.content.Scripts
         }
         private void DoBlasphemy()
         {
-            blasphemyAbility.trigger(abilityAttackDamage);  // TODO: REMOVE WHEN POSSIBLE 
+            //blasphemyAbility.trigger(abilityAttackDamage);  // TODO: REMOVE WHEN POSSIBLE 
             if (blasphemyCharge == 100)
             {
                 blasphemyCharge -= 100;
                 blasphemyAbility.trigger(abilityAttackDamage);
             }
+            Console.WriteLine(blasphemyCharge);
         }
 
         public override Rectangle BoundingBox
