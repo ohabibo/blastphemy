@@ -48,11 +48,17 @@ namespace Blok3Game.content.Scripts.Managers
 
         public void SpawnAimedEnemyBullet1(Vector2 enemyPos)
         {
+            enemyPos.X += 22;
+            enemyPos.Y += 22;
+
             EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, player.Position);
             Add(enemyBullet);
         }
         public void SpawnEnemyBulletPlus1(Vector2 enemyPos)
         {
+            enemyPos.X += 22;
+            enemyPos.Y += 22;
+
             offset1 = enemyPos;
             offset1.X += 1;
             EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
@@ -71,6 +77,9 @@ namespace Blok3Game.content.Scripts.Managers
 
         public void SpawnEnemyBulletCross1(Vector2 enemyPos)
         {
+            enemyPos.X += 22;
+            enemyPos.Y += 22;
+
             offset1 = enemyPos;
             offset1.X += 1;
             offset1.Y += 1;
@@ -90,8 +99,16 @@ namespace Blok3Game.content.Scripts.Managers
             return children;
         }
 
-        public void SpawnEnemyBulletTop1(Vector2 enemyPos)
+        public void SpawnEnemyBulletTop1(Vector2 enemyPos, bool goingLeft)
         {
+            
+            if (goingLeft) {
+                enemyPos.X += 12;
+            } else {
+                enemyPos.X += 32;
+            }
+            enemyPos.Y += 38;
+            
             offset1.X = enemyPos.X;
             offset1.Y = 1000;
             EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);
@@ -106,6 +123,9 @@ namespace Blok3Game.content.Scripts.Managers
 
         public void SpawnEnemyBulletBomb1(Vector2 enemyPos)
         {
+            enemyPos.X += 22;
+            enemyPos.Y += 22;
+
             offset1.X = enemyPos.X;
             offset1.Y = enemyPos.Y + 2;
             EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, enemyPos, offset1);

@@ -179,8 +179,8 @@ namespace Blok3Game.content.Scripts
             playerCenterPosition.X += sprite.Width / 2;
             playerCenterPosition.Y += sprite.Height / 2;
             Vector2 bulletStartPosition = playerCenterPosition;
-            bulletStartPosition.X -= gameState.playerBulletTexture.Width / 2;
-            bulletStartPosition.Y -= gameState.playerBulletTexture.Height / 2;
+            bulletStartPosition.X -= gameState.playerBulletTexture.Width / 2 - 5/2;
+            bulletStartPosition.Y -= gameState.playerBulletTexture.Height / 2 - 5/2;
             Vector2 enemyOffset = new Vector2();
             List<GameObject> Enemies = gameState.enemyManager.GetChildren();
             foreach (Enemy obj in Enemies)
