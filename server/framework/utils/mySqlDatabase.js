@@ -8,6 +8,10 @@ class MySqlDatabase {
 		this.#createConnectionPool();
 	}
 	
+	async initializeDatabase(){
+		await this.#createConnectionPool();
+	}
+
 	#createConnectionPool() {
 		this.#connectionPool = mySql.createPool({
 			host: serverConfig.database.host,
@@ -19,8 +23,8 @@ class MySqlDatabase {
 			timezone: "+01:00",
 			multipleStatements: true
 		});
+		console.log("connection established")
 	}
-
 	async executePreparedQuery(query, parameters) {
 		const connection = await this.#connectionPool.getConnection();
 		try	{

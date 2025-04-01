@@ -3,9 +3,9 @@
     "host": "db.hbo-ict.cloud",
     "port": 3366,
     "timeout": 30000,
-    "username": "your username",
-    "password": "your password",
-    "database": "your database schema name",
+    "username": "pb3gdg2425_guulaaxeexaa84",
+    "password": "cWyJLeQylmntN5B7",
+    "database": "pb3gdg2425_guulaaxeexaa84_live",
     "connectionLimit": 10
   }
 }
