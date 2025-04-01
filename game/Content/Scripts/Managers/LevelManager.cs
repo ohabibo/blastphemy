@@ -11,7 +11,7 @@ namespace Blok3Game.content.Scripts.Managers
 {
     private float Timer = 0f;
     private int waveIndex = 0;
-    private float waveInterval = 30f; 
+    private float waveInterval = 15f; 
     private float totalGameTime = 180f;
     private bool levelComplete = false;
 
@@ -29,12 +29,12 @@ namespace Blok3Game.content.Scripts.Managers
 
         if (waveIndex < 3 && Timer >= waveIndex * waveInterval)
         {
-            int normalEnemies = rand.Next(1, 4);
+            int enemies = rand.Next(1, 4);
             int crossEnemies = rand.Next(1, 4);
             int topEnemies = rand.Next(1, 4);
             int bombEnemies = rand.Next(1, 4);
 
-            enemyManager.SpawnWave(normalEnemies, crossEnemies, topEnemies, bombEnemies);
+            enemyManager.SpawnWave(enemies, crossEnemies, topEnemies, bombEnemies);
 
             waveIndex++;
 
