@@ -15,6 +15,7 @@ namespace Blok3Game.GameStates
     public class GameState : GameObjectList
     {
         public EnemyManager enemyManager;
+        public LevelManager levelManager;
         private Texture2D enemyTexture;
         public EnemyBulletManager enemyBulletManager;
         private Texture2D enemyBulletTexture;
@@ -97,6 +98,9 @@ namespace Blok3Game.GameStates
             
             enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager); // Pass the mock player
             Add(enemyManager);
+
+            levelManager = new LevelManager(enemyManager);
+            Add(levelManager);
 
             // Optionally load the shield font here
             shieldFont = content.Load<SpriteFont>("Assets/Fonts/shieldfont");
