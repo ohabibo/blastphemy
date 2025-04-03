@@ -23,7 +23,8 @@ namespace Blok3Game.GameStates
         private Texture2D standardEnemyTexture;
         private Texture2D topEnemyTexture;
         public EnemyBulletManager enemyBulletManager;
-        private Texture2D enemyBulletTexture;
+        private Texture2D enemyBulletTextureDemonic;
+        private Texture2D enemyBulletTextureAngelic;
         private Texture2D playerTexture; // Added missing field declaration
         public Texture2D playerBulletTexture;
         private Player tempPlayer;
@@ -83,10 +84,8 @@ namespace Blok3Game.GameStates
             this.content = content;
             
             FMODAudio.Instance.PlayMusic("event:/TestMusic");
-            // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
-            // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
-            playerTexture = CreateCircleTexture(32, Color.White);
-            playerBulletTexture = CreateCircleTexture(5, Color.Yellow);
+            playerTexture = content.Load<Texture2D>("Assets/Sprites/Player/Player");
+            playerBulletTexture = content.Load<Texture2D>("Assets/Sprites/Bullets/PlayerBullet");
 
             // sets background texture
             backgroundTexture = content.Load<Texture2D>("Assets/Sprites/Background/Background");
@@ -98,13 +97,14 @@ namespace Blok3Game.GameStates
             topEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/TopEnemy");
 
             // Create a orange circle texture for the enemy bullets
-            enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
+            enemyBulletTextureAngelic = content.Load<Texture2D>("Assets/Sprites/Bullets/AngelBullet");
+            enemyBulletTextureDemonic = content.Load<Texture2D>("Assets/Sprites/Bullets/DemonBullet");
             
             
             tempPlayer = new Player(playerTexture, this);
             Add(tempPlayer);
 
-            enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
+            enemyBulletManager = new EnemyBulletManager(enemyBulletTextureDemonic, enemyBulletTextureAngelic, tempPlayer); // Pass the mock player
             Add(enemyBulletManager);
             
             enemyManager = new EnemyManager(
