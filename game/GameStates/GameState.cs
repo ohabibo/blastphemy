@@ -18,7 +18,10 @@ namespace Blok3Game.GameStates
     {
         public EnemyManager enemyManager;
         private Texture2D backgroundTexture;
-        private Texture2D enemyTexture;
+        private Texture2D bombEnemyTexture;
+        private Texture2D crossEnemyTexture;
+        private Texture2D standardEnemyTexture;
+        private Texture2D topEnemyTexture;
         public EnemyBulletManager enemyBulletManager;
         private Texture2D enemyBulletTexture;
         private Texture2D playerTexture; // Added missing field declaration
@@ -88,8 +91,11 @@ namespace Blok3Game.GameStates
             // sets background texture
             backgroundTexture = content.Load<Texture2D>("Assets/Sprites/Background/Background");
             
-            // Create a red circle texture for the enemies
-            enemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/BombEnemy");
+            // Loads Enemy textures
+            bombEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/BombEnemy");
+            crossEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/CrossEnemy");
+            standardEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/EnemyStandard");
+            topEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/TopEnemy");
 
             // Create a orange circle texture for the enemy bullets
             enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
@@ -101,7 +107,15 @@ namespace Blok3Game.GameStates
             enemyBulletManager = new EnemyBulletManager(enemyBulletTexture, tempPlayer); // Pass the mock player
             Add(enemyBulletManager);
             
-            enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager, tempPlayer); // Pass the mock player
+            enemyManager = new EnemyManager(
+            bombEnemyTexture,
+            crossEnemyTexture,
+            standardEnemyTexture,
+            topEnemyTexture,
+            tempPlayer,
+            enemyBulletManager,
+            tempPlayer
+            ); // Pass the mock player
             Add(enemyManager);
 
             // Optionally load the shield font here

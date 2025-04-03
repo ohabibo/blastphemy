@@ -9,7 +9,10 @@ namespace Blok3Game.content.Scripts.Managers
 {
     public class EnemyManager : GameObjectList 
     {
-        private Texture2D enemySprite;
+        private Texture2D bombEnemyTexture;
+        private Texture2D crossEnemyTexture;
+        private Texture2D standardEnemyTexture;
+        private Texture2D topEnemyTexture;
         private GameObject player;
         private float spawnTimer;
         private float spawnInterval = 2f;
@@ -25,9 +28,12 @@ namespace Blok3Game.content.Scripts.Managers
 
         private Random rand = new Random();
 
-        public EnemyManager(Texture2D enemyTexture, GameObject playerObject, EnemyBulletManager bulletManager, Player player2) : base()
+        public EnemyManager(Texture2D _bombEnemyTexture, Texture2D _crossEnemyTexture, Texture2D _standardEnemyTexture, Texture2D _topEnemyTexture, GameObject playerObject, EnemyBulletManager bulletManager, Player player2) : base()
         {
-            enemySprite = enemyTexture;
+            bombEnemyTexture = _bombEnemyTexture;
+            crossEnemyTexture = _crossEnemyTexture;
+            standardEnemyTexture = _standardEnemyTexture;
+            topEnemyTexture = _topEnemyTexture;
             player = playerObject;
             enemyBulletManager = bulletManager;
             player1 = player2;
@@ -87,7 +93,7 @@ namespace Blok3Game.content.Scripts.Managers
 
         private void SpawnEnemy()
         {
-            Enemy enemy = new Enemy(enemySprite);
+            Enemy enemy = new Enemy(standardEnemyTexture);
             Add(enemy);
         }
         public List<GameObject> GetChildren() {          return children;        }
@@ -98,19 +104,19 @@ namespace Blok3Game.content.Scripts.Managers
         }
         private void SpawnCrossEnemy()
         {
-            CrossEnemy crossEnemy = new CrossEnemy(enemySprite);
+            CrossEnemy crossEnemy = new CrossEnemy(crossEnemyTexture);
             Add(crossEnemy);
         }
 
         private void SpawnTopEnemy()
         {
-            TopEnemy topEnemy = new TopEnemy(enemySprite);
+            TopEnemy topEnemy = new TopEnemy(topEnemyTexture);
             Add(topEnemy);
         }
 
         private void SpawnBombEnemy()
         {
-            BombEnemy bombEnemy = new BombEnemy(enemySprite);
+            BombEnemy bombEnemy = new BombEnemy(bombEnemyTexture);
             Add(bombEnemy);
         }
 
