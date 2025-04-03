@@ -67,11 +67,11 @@ namespace Blok3Game.content.Scripts
 
             if (inputHelper.IsKeyDown(Keys.A) && position.X > 0) { velocity.X = -1; }
 
-            if (inputHelper.IsKeyDown(Keys.D) && position.X < 1920) { velocity.X = 1; }
+            if (inputHelper.IsKeyDown(Keys.D) && position.X < 1856) { velocity.X = 1; }
 
             if (inputHelper.IsKeyDown(Keys.W) && position.Y > 0) { velocity.Y = -1; }
 
-            if (inputHelper.IsKeyDown(Keys.S) && position.Y < 1080) { velocity.Y = 1; }
+            if (inputHelper.IsKeyDown(Keys.S) && position.Y < 1016) { velocity.Y = 1; }
 
             if (!(velocity.X == 0 && velocity.Y == 0)) { velocity = Vector2.Normalize(velocity) * maxVelocity; }
         }
