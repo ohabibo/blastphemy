@@ -11,6 +11,8 @@ namespace Blok3Game.content.Scripts.Enemies
 {
     public class TopEnemy : Enemy
     {
+
+        public bool goingLeft = false;
         public bool crossShot = false;
         public TopEnemy(Texture2D sprite) : base(sprite) 
         {
@@ -42,8 +44,8 @@ namespace Blok3Game.content.Scripts.Enemies
             {
                 //Kies random richting om in te bewegen
                 velocity = Vector2.Zero;
-                if (rand.Next(0, 2) == 1) {         targetPosition.X = 50;                      } 
-                else {                              targetPosition.X = screenWidth - 50;        }
+                if (rand.Next(0, 2) == 1) {         targetPosition.X = 50;                      goingLeft = true;          } 
+                else {                              targetPosition.X = screenWidth - 50;        goingLeft = false;          }
             }
         }
 

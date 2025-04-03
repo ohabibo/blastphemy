@@ -21,7 +21,7 @@ namespace Blok3Game.content.Scripts
         private bool isAlive;
         private int maxHitPoints;
         private int maxVelocity;
-        private float blasphemyCharge;
+        public float blasphemyCharge;
         private GameState gameState;
         private List<PlayerAttack> bullets;
         private Blasphemy blasphemyAbility;
@@ -65,13 +65,13 @@ namespace Blok3Game.content.Scripts
             }
             if (inputHelper.IsKeyDown(Keys.F)) { DoBlasphemy(); }
 
-            if (inputHelper.IsKeyDown(Keys.A)) { velocity.X = -1; }
+            if (inputHelper.IsKeyDown(Keys.A) && position.X > 0) { velocity.X = -1; }
 
-            if (inputHelper.IsKeyDown(Keys.D)) { velocity.X = 1; }
+            if (inputHelper.IsKeyDown(Keys.D) && position.X < 1920) { velocity.X = 1; }
 
-            if (inputHelper.IsKeyDown(Keys.W)) { velocity.Y = -1; }
+            if (inputHelper.IsKeyDown(Keys.W) && position.Y > 0) { velocity.Y = -1; }
 
-            if (inputHelper.IsKeyDown(Keys.S)) { velocity.Y = 1; }
+            if (inputHelper.IsKeyDown(Keys.S) && position.Y < 1080) { velocity.Y = 1; }
 
             if (!(velocity.X == 0 && velocity.Y == 0)) { velocity = Vector2.Normalize(velocity) * maxVelocity; }
         }
@@ -179,8 +179,8 @@ namespace Blok3Game.content.Scripts
             playerCenterPosition.X += sprite.Width / 2;
             playerCenterPosition.Y += sprite.Height / 2;
             Vector2 bulletStartPosition = playerCenterPosition;
-            bulletStartPosition.X -= gameState.playerBulletTexture.Width / 2;
-            bulletStartPosition.Y -= gameState.playerBulletTexture.Height / 2;
+            bulletStartPosition.X -= gameState.playerBulletTexture.Width / 2 - 5/2;
+            bulletStartPosition.Y -= gameState.playerBulletTexture.Height / 2 - 5/2;
             Vector2 enemyOffset = new Vector2();
             List<GameObject> Enemies = gameState.enemyManager.GetChildren();
             foreach (Enemy obj in Enemies)
@@ -208,6 +208,7 @@ namespace Blok3Game.content.Scripts
                     )
                 );
         }
+
         public void AddToBlasphemy(float increment)
         {
             float newValue = blasphemyCharge + increment;
@@ -218,12 +219,12 @@ namespace Blok3Game.content.Scripts
         }
         private void DoBlasphemy()
         {
-            blasphemyAbility.trigger(abilityAttackDamage);  // TODO: REMOVE WHEN POSSIBLE 
             if (blasphemyCharge == 100)
             {
                 blasphemyCharge -= 100;
                 blasphemyAbility.trigger(abilityAttackDamage);
             }
+            Console.WriteLine(blasphemyCharge);
         }
 
         public override Rectangle BoundingBox

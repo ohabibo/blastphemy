@@ -1,8 +1,8 @@
 {
 	"debug":
 	{
-		"location": "http://localhost:3000",
-		"path": ""
+		"location": "https://guulaaxeexaa84-pb3gdg2425.hbo-ict.cloud",
+		"path": "/api/socket.io"
 	},
 	"release":
 	{
