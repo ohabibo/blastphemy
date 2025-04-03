@@ -12,11 +12,11 @@ namespace Blok3Game.content.Scripts.Managers
         private Texture2D enemySprite;
         private GameObject player;
         private float spawnTimer;
-        private float spawnInterval = 2f;
+        public float spawnInterval = 4f;
         public EnemyBulletManager enemyBulletManager;
         public Player player1;
 
-        private float shootTimer;
+        public float shootTimer;
         private float shootInterval = 4f;
 
         private float blastphemyIncrease = 10f;
@@ -39,7 +39,7 @@ namespace Blok3Game.content.Scripts.Managers
 
             if (spawnTimer >= spawnInterval)
             {
-                SpawnWave(1, 2, 1, 1);
+               // SpawnWave(1, 2, 1, 1);
                 spawnTimer = 0;
             }
 
@@ -119,7 +119,8 @@ namespace Blok3Game.content.Scripts.Managers
             for (int i = 0; i < crossEnemies; i++) {        SpawnCrossEnemy();          }
             for (int i = 0; i < topEnemies; i++) {          SpawnTopEnemy();            }
             for (int i = 0; i < bombEnemies; i++) {         SpawnBombEnemy();           }
-            totalEnemies += enemies + crossEnemies + topEnemies+ bombEnemies;
+            totalEnemies += enemies + crossEnemies + topEnemies + bombEnemies;
         }
+
     }
 }
