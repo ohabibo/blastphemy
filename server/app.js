@@ -10,6 +10,7 @@ const morgan = require("morgan");
 const errorcodes = require("./framework/utils/httpErrorCodes");
 const path = require("path");
 const SocketConnectionListener = require("./socketConnectionListener");
+const MySqlDatabase = require("./framework/utils/mySqlDatabase");
 
 const app = express();
 //front-end as static directory
@@ -35,7 +36,10 @@ app.get("*", (req, res) => {
 async function listen(port, callback) {
     const server = app.listen(port, callback);
 	const socketConnectionListener = new SocketConnectionListener();
-	socketConnectionListener.initializeServer(server);
+    const mySqlDatabase = new MySqlDatabase();
+    await mySqlDatabase.initializeDatabase();
+	
+    socketConnectionListener.initializeServer(server, mySqlDatabase);
 }
 
 module.exports = {
