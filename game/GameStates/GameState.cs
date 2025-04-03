@@ -9,12 +9,15 @@ using Blok3Game.Engine.Helpers;
 using Blok3Game.content.Scripts.Audio;
 using System.Net.Sockets;
 using Microsoft.Xna.Framework.Input;
+using System.Security.Principal;
+using System.Windows;
 
 namespace Blok3Game.GameStates
 {
     public class GameState : GameObjectList
     {
         public EnemyManager enemyManager;
+        private Texture2D backgroundTexture;
         private Texture2D enemyTexture;
         public EnemyBulletManager enemyBulletManager;
         private Texture2D enemyBulletTexture;
@@ -66,6 +69,7 @@ namespace Blok3Game.GameStates
             // Add this line to see if anything is drawing
             // Set a background color other than black to verify the Draw method is being called
             spriteBatch.GraphicsDevice.Clear(Color.DarkBlue);
+            spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), Color.DarkBlue);
             
             base.Draw(gameTime, spriteBatch);
         }
@@ -81,6 +85,8 @@ namespace Blok3Game.GameStates
             playerTexture = CreateCircleTexture(32, Color.White);
             playerBulletTexture = CreateCircleTexture(5, Color.Yellow);
 
+            // sets background texture
+            backgroundTexture = content.Load<Texture2D>("Assets/Sprites/Background/Background");
             
             // Create a red circle texture for the enemies
             enemyTexture = CreateCircleTexture(32, Color.Red);

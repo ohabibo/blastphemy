@@ -86,8 +86,8 @@ public class GameEnvironment : Game
         }
         else
         {
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.PreferredBackBufferWidth = screen.X;
+            graphics.PreferredBackBufferHeight = screen.Y;
             graphics.IsFullScreen = true;
             graphics.ApplyChanges();
         }
