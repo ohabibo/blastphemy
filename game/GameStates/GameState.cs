@@ -69,7 +69,7 @@ namespace Blok3Game.GameStates
             // Add this line to see if anything is drawing
             // Set a background color other than black to verify the Draw method is being called
             spriteBatch.GraphicsDevice.Clear(Color.DarkBlue);
-            spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), Color.DarkBlue);
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.SlateBlue);
             
             base.Draw(gameTime, spriteBatch);
         }
