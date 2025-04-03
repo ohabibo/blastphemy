@@ -9,7 +9,7 @@ namespace Blok3Game.content.Scripts.Managers
 {
  public class LevelManager : GameObjectList
 {
-    private float Timer = 0f;
+    private float timer = 0f;
     private int waveIndex = 0;
     private float waveInterval = 15f; 
     private float totalGameTime = 180f;
@@ -25,9 +25,9 @@ namespace Blok3Game.content.Scripts.Managers
 
     public override void Update(GameTime gameTime)
     {
-        Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (waveIndex < 3 && Timer >= waveIndex * waveInterval)
+        if (waveIndex < 3 && timer >= waveIndex * waveInterval)
         {
             int enemies = rand.Next(1, 4);
             int crossEnemies = rand.Next(1, 4);
