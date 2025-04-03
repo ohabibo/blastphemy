@@ -63,6 +63,18 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Sprites/Background/Sprite-Tile-Background-full-Blasphemy.png;Assets/Sprites/Background/Background.png
 
+#begin Assets/Sprites/Enemies/pixil-frame-0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Enemies/pixil-frame-0.png;Assets/Sprites/Enemies/BombEnemy.png
+
 #begin Assets/Sprites/Shield/shield.png
 /importer:TextureImporter
 /processor:TextureProcessor

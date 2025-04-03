@@ -89,7 +89,7 @@ namespace Blok3Game.GameStates
             backgroundTexture = content.Load<Texture2D>("Assets/Sprites/Background/Background");
             
             // Create a red circle texture for the enemies
-            enemyTexture = CreateCircleTexture(32, Color.Red);
+            enemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/BombEnemy");
 
             // Create a orange circle texture for the enemy bullets
             enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
