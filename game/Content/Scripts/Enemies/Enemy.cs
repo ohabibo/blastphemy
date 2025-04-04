@@ -14,7 +14,7 @@ namespace Blok3Game.content.Scripts.Enemies
         protected Vector2 targetPosition;
         protected float speed = 100f;
         protected int hitPoints;
-        private bool isAlive;
+        protected bool isAlive;
         protected int maxHitPoints = 30;
         protected Texture2D enemySprite;
         protected Random rand;

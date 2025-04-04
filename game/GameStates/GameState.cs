@@ -16,9 +16,12 @@ namespace Blok3Game.GameStates
     {
         public EnemyManager enemyManager;
         public LevelManager levelManager;
+        public BossManager bossManager;
         private Texture2D enemyTexture;
         public EnemyBulletManager enemyBulletManager;
         private Texture2D enemyBulletTexture;
+        private Texture2D bossBulletTexture;
+        public Texture2D bossTexture; // Added missing field declaration
         private Texture2D playerTexture; // Added missing field declaration
         public Texture2D playerBulletTexture;
         private Player tempPlayer;
@@ -79,15 +82,17 @@ namespace Blok3Game.GameStates
             FMODAudio.Instance.PlayMusic("event:/TestMusic");
             // enemyTexture = content.Load<Texture2D>("Sprites/Enemy");
             // playerTexture = content.Load<Texture2D>("Sprites/TempPlayer");
-            playerTexture = CreateCircleTexture(32, Color.White);
+            playerTexture = CreateCircleTexture(16, Color.White);
             playerBulletTexture = CreateCircleTexture(5, Color.Yellow);
 
             
             // Create a red circle texture for the enemies
             enemyTexture = CreateCircleTexture(32, Color.Red);
+            bossTexture = CreateCircleTexture(32, Color.Green);
 
             // Create a orange circle texture for the enemy bullets
             enemyBulletTexture = CreateCircleTexture(12, Color.Orange);
+            bossBulletTexture = CreateCircleTexture(12, Color.OrangeRed);
             
             
             tempPlayer = new Player(playerTexture, this);
@@ -98,8 +103,10 @@ namespace Blok3Game.GameStates
             
             enemyManager = new EnemyManager(enemyTexture, tempPlayer, enemyBulletManager, tempPlayer); // Pass the mock player
             Add(enemyManager);
+            bossManager = new BossManager(bossTexture, bossBulletTexture, tempPlayer, enemyBulletManager); // Pass the mock player
+            Add(bossManager); 
 
-            levelManager = new LevelManager(enemyManager);
+            levelManager = new LevelManager(enemyManager, bossManager);
             Add(levelManager);
 
             // Optionally load the shield font here
