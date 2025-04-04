@@ -18,6 +18,7 @@ namespace Blok3Game.GameStates
     {
         public EnemyManager enemyManager;
         public LevelManager levelManager;
+        public BossManager bossManager;
         private Texture2D backgroundTexture;
         private Texture2D bombEnemyTexture;
         private Texture2D crossEnemyTexture;
@@ -26,6 +27,8 @@ namespace Blok3Game.GameStates
         public EnemyBulletManager enemyBulletManager;
         private Texture2D enemyBulletTextureDemonic;
         private Texture2D enemyBulletTextureAngelic;
+        private Texture2D bossBulletTexture;
+        public Texture2D bossTexture; // Added missing field declaration
         private Texture2D playerTexture; // Added missing field declaration
         public Texture2D playerBulletTexture;
         private Player tempPlayer;
@@ -100,6 +103,7 @@ namespace Blok3Game.GameStates
             // Create a orange circle texture for the enemy bullets
             enemyBulletTextureAngelic = content.Load<Texture2D>("Assets/Sprites/Bullets/AngelBullet");
             enemyBulletTextureDemonic = content.Load<Texture2D>("Assets/Sprites/Bullets/DemonBullet");
+            bossBulletTexture = CreateCircleTexture(12, Color.OrangeRed);
             
             
             tempPlayer = new Player(playerTexture, this);
@@ -118,8 +122,10 @@ namespace Blok3Game.GameStates
             tempPlayer
             ); // Pass the mock player
             Add(enemyManager);
+            bossManager = new BossManager(bossTexture, bossBulletTexture, tempPlayer, enemyBulletManager); // Pass the mock player
+            Add(bossManager); 
 
-            levelManager = new LevelManager(enemyManager);
+            levelManager = new LevelManager(enemyManager, bossManager);
             Add(levelManager);
 
             // Optionally load the shield font here

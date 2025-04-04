@@ -158,5 +158,18 @@ namespace Blok3Game.content.Scripts.Managers
                 Add(enemyBullet);
             }
         }
+
+        public void SpawnDirectionalEnemyBullet(Vector2 startPos, Vector2 direction)
+        {
+            startPos.X += 22;
+            startPos.Y += 22;
+            
+            // Calculate target position based on direction
+            Vector2 targetPos = startPos + direction * 1000;
+            
+            // Create bullet with the specified direction
+            EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, startPos, targetPos);
+            Add(enemyBullet);
+        }
     }
 }
