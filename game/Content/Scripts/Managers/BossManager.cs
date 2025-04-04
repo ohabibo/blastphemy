@@ -49,7 +49,7 @@ namespace Blok3Game.content.Scripts.Managers
                     {
                         bossEnemies.Remove(boss);
                         Remove(boss);
-                        break; // Exit the loop to avoid modifying the collection while iterating
+                        break;
                     }
                 }
             }
