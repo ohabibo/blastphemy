@@ -1,7 +1,7 @@
 
 using Blok3Game.Engine.GameObjects;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Blok3Game.content.Scripts.Managers;
 using System;
 using System.Collections.Generic;
 
@@ -16,18 +16,17 @@ namespace Blok3Game.content.Scripts.Managers
     private bool levelComplete = false;
 
     public EnemyManager enemyManager;
-    public BossManager bossManager;
     private Random rand = new Random();
 
-    public LevelManager(EnemyManager manager, BossManager boss)
+    public LevelManager(EnemyManager manager)
     {
         enemyManager = manager;
-        bossManager = boss;
     }
 
     public override void Update(GameTime gameTime)
     {
         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
         if (waveIndex < 3 && timer >= waveIndex * waveInterval)
         {
             int enemies = rand.Next(1, 4);
@@ -43,14 +42,12 @@ namespace Blok3Game.content.Scripts.Managers
             {
                 levelComplete = true;
             }
-
-            
         }
 
-        if (timer >= totalGameTime && levelComplete || levelComplete)
-        {
-            bossManager.SpawnBoss();
-        }
+        // if (Timer >= totalGameTime && !levelComplete)
+        // {
+        //     boss level
+        // }
 
         base.Update(gameTime);
     }
