@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Collections.Generic;
 using Blok3Game.content.Scripts.Managers;
 using Blok3Game.content.Scripts.Enemies;
+using Blok3Game.content.Scripts.Enemies.boss;
 using Microsoft.Xna.Framework.Input;
 using Blok3Game.GameStates;
 
@@ -128,6 +129,23 @@ namespace Blok3Game.content.Scripts
                     }
                 }
             }
+
+            foreach (GameObject obj in gameState.bossManager.GetChildren())
+            {
+                if (obj is BossEnemy bossEnemy && bossEnemy.Visible)
+                {
+                    foreach (PlayerAttack bullet in bullets)
+                    {
+                        if (bullet.CheckCollision(bossEnemy.BoundingBox))
+                        {
+                            bossEnemy.Damage(bullet.Damage);
+                            bullet.Visible = false;
+                            bullets.Remove(bullet);
+                            break;
+                        }
+                    }
+                }
+            }
             base.Update(gameTime);
         }
         public void SetHP(int newHP)
@@ -174,7 +192,7 @@ namespace Blok3Game.content.Scripts
         }
         private void DoBaseAttack()
         {
-            Vector2 closestEnemy = Vector2.Zero; // Why? Why not just use null? Because the if statement cant check it if its null.
+            Vector2 closestEnemy = Vector2.Zero;
             Vector2 playerCenterPosition = this.Position;
             playerCenterPosition.X += sprite.Width / 2;
             playerCenterPosition.Y += sprite.Height / 2;
@@ -183,6 +201,25 @@ namespace Blok3Game.content.Scripts
             bulletStartPosition.Y -= gameState.playerBulletTexture.Height / 2 - 5/2;
             Vector2 enemyOffset = new Vector2();
             List<GameObject> Enemies = gameState.enemyManager.GetChildren();
+            List<GameObject> Boss = gameState.bossManager.GetChildren();
+
+            foreach (GameObject obj in Boss)
+            {
+                if (obj is BossEnemy bossEnemy && bossEnemy.Visible)
+                {
+                    if (closestEnemy == Vector2.Zero) { closestEnemy = bossEnemy.Position; }
+                    else
+                    {
+                        float closestEnemyDistance = Vector2.Distance(closestEnemy, playerCenterPosition);
+                        float objEnemyDistance = Vector2.Distance(bossEnemy.Position, playerCenterPosition);
+                        if (closestEnemyDistance > objEnemyDistance)
+                            closestEnemy = bossEnemy.Position;
+                        enemyOffset.X = bossEnemy.GetTexture().Width / 2;
+                        enemyOffset.Y = bossEnemy.GetTexture().Height / 2;
+                    }
+                }
+            }
+            if (closestEnemy == Vector2.Zero) { } else aimDirection = Vector2.Normalize(closestEnemy + enemyOffset - bulletStartPosition);
             foreach (Enemy obj in Enemies)
             {
                 if (!obj.Visible) continue;
