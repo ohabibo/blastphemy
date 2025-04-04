@@ -99,6 +99,7 @@ namespace Blok3Game.GameStates
             crossEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/CrossEnemy");
             standardEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/EnemyStandard");
             topEnemyTexture = content.Load<Texture2D>("Assets/Sprites/Enemies/TopEnemy");
+            bossTexture = CreateCircleTexture(32, Color.Green);
 
             // Create a orange circle texture for the enemy bullets
             enemyBulletTextureAngelic = content.Load<Texture2D>("Assets/Sprites/Bullets/AngelBullet");
