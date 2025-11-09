@@ -25,8 +25,8 @@ namespace Blok3Game.content.Scripts.Audio
         }
 
         private FMODAudio() { }
-        private const string MASTER_BANK = "../../../Content/Audio/Music/Master.bank";
-        private const string MASTER_STRINGS_BANK = "../../../Content/Audio/Music/Master.strings.bank";
+        private const string MASTER_BANK = "Content/Audio/Music/Master.bank";
+        private const string MASTER_STRINGS_BANK = "Content/Audio/Music/Master.strings.bank";
 
         private FMOD.System system;
         private FMOD.Studio.System studioSystem;
