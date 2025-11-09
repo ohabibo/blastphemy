@@ -33,4 +33,4 @@ jobs:
       env:
         BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
       run: |
-        ./butler push ./build divechain/project-blastphemy:windows --userversion-file version.txt
+        ./butler push ./build divechain/project-blastphemy:windows
