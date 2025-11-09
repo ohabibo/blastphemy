@@ -184,6 +184,6 @@ namespace Blok3Game.content.Scripts.Enemies.boss {
         }
 
         public bool IsAlive => isAlive;
-        public Vector2 Position => position;
+        public override Vector2 Position => position;
     }
 }
