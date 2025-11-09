@@ -167,8 +167,8 @@ namespace Blok3Game.content.Scripts.Managers
             // Calculate target position based on direction
             Vector2 targetPos = startPos + direction * 1000;
             
-            // Create bullet with the specified direction
-            EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSprite, startPos, targetPos);
+            // Create bullet with the specified direction (use existing texture)
+            EnemyBullet enemyBullet = new EnemyBullet(enemyBulletSpriteDemonic, startPos, targetPos);
             Add(enemyBullet);
         }
     }
