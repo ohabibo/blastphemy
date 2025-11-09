@@ -1,0 +1,36 @@
+name: Deploy to Itch.io
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore game/Blok3Game.csproj
+      
+    - name: Build game
+      run: dotnet publish game/Blok3Game.csproj -c Release -r win-x64 --self-contained -o ./build
+      
+    - name: Install Butler (itch.io CLI)
+      run: |
+        curl -L -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
+        Expand-Archive butler.zip -DestinationPath .
+        
+    - name: Deploy to Itch.io
+      env:
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      run: |
+        ./butler push ./build divechain/project-blastphemy:windows --userversion-file version.txt
