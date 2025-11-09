@@ -24,6 +24,9 @@ jobs:
     - name: Build game
       run: dotnet publish game/Blok3Game.csproj -c Release -r win-x64 --self-contained -o ./build
       
+    - name: Copy Content folder
+      run: Copy-Item -Path "game/Content" -Destination "./build/Content" -Recurse
+      
     - name: Install Butler (itch.io CLI)
       run: |
         curl -L -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
